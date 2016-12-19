@@ -1,0 +1,50 @@
+{
+  "auth_fields":{
+
+  },
+  "request":{
+    "files":{
+
+    },
+    "url":"http://requestb.in/ycdi7yyc",
+    "headers":{
+      "Content-Type":"application/json; charset=utf-8",
+      "Accept":"application/json"
+    },
+    "params":{
+
+    },
+    "data": "{\"message_content\": \"\", \"message_header\": \"\", \"webhook_url\": \"http://requestb.in/ycdi7yyc\"}",
+    "method":"POST"
+  },
+  "action_fields":{
+    "message_header": null,
+    "message_content":"",
+    "message_icon":"http://icon.com/icon",
+    "webhook_url":"http://requestb.in/ycdi7yyc"
+  },
+  "action_fields_full":{
+    "message_header":"",
+    "message_content":"",
+    "message_icon":"http://icon.com/icon",
+    "webhook_url":"http://requestb.in/ycdi7yyc"
+  },
+  "meta":{
+    "frontend":true
+  },
+  "action_fields_raw":{
+    "message_header":"",
+    "message_content":"",
+    "message_icon":"http://icon.com/icon",
+    "webhook_url":"http://requestb.in/ycdi7yyc"
+  },
+  "url_raw":"{{webhook_url}}",
+  "zap":{
+    "live":true,
+    "link":"https://zapier.com/app/edit/12156591",
+    "name":"Card Created",
+    "user":{
+      "timezone":null
+    }
+  }
+}
