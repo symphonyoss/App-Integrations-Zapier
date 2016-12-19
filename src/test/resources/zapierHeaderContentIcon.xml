@@ -1,0 +1,25 @@
+<messageML>
+<entity type="com.symphony.integration.zapier.event.post_message" version="1.0">
+<presentationML>New Trello Card Created<br/>&lt;b&gt;Card Name:&lt;/b&gt; Card added for symphony innovate<br/>&lt;b&gt;Card Link:&lt;/b&gt; https://trello.com/c/8Md51YdW/15-card-added-for-symphony-innovate</presentationML>
+<entity type="com.symphony.integration.zapier.zap" version="1.0">
+<attribute name="name" type="org.symphonyoss.string" value="Card Created"/>
+<attribute name="link" type="com.symphony.uri" value="https://zapier.com/app/edit/12156591"/>
+<attribute name="live" type="org.symphonyoss.string" value="true"/>
+</entity>
+<entity name="action_fields" type="com.symphony.integration.zapier.fields" version="1.0">
+<attribute name="message_header" type="org.symphonyoss.string" value="New Trello Card Created"/>
+<attribute name="message_content" type="org.symphonyoss.string" value="&amp;lt;b&amp;gt;Card Name:&amp;lt;/b&amp;gt; Card added for symphony innovate&lt;br/&gt;&amp;lt;b&amp;gt;Card Link:&amp;lt;/b&amp;gt; &lt;a href=&quot;https://trello.com/c/8Md51YdW/15-card-added-for-symphony-innovate&quot;&gt;https://trello.com/c/8Md51YdW/15-card-added-for-symphony-innovate&lt;/a&gt;"/>
+<attribute name="message_icon" type="com.symphony.uri" value="http://icon.com/icon"/>
+</entity>
+<entity name="action_fields_full" type="com.symphony.integration.zapier.fields" version="1.0">
+<attribute name="message_header" type="org.symphonyoss.string" value="full - New Trello Card Created"/>
+<attribute name="message_content" type="org.symphonyoss.string" value="full - &amp;lt;b&amp;gt;Card Name:&amp;lt;/b&amp;gt; Card added for symphony innovate&lt;br/&gt;&amp;lt;b&amp;gt;Card Link:&amp;lt;/b&amp;gt; &lt;a href=&quot;https://trello.com/c/8Md51YdW/15-card-added-for-symphony-innovate&quot;&gt;https://trello.com/c/8Md51YdW/15-card-added-for-symphony-innovate&lt;/a&gt;"/>
+<attribute name="message_icon" type="com.symphony.uri" value="http://icon.com/icon"/>
+</entity>
+<entity name="action_fields_raw" type="com.symphony.integration.zapier.fields" version="1.0">
+<attribute name="message_header" type="org.symphonyoss.string" value="New Trello Card Created"/>
+<attribute name="message_content" type="org.symphonyoss.string" value="&amp;lt;b&amp;gt;Card Name:&amp;lt;/b&amp;gt; {{12156591__name}}&lt;br/&gt;&amp;lt;b&amp;gt;Card Link:&amp;lt;/b&amp;gt; {{12156591__url}}"/>
+<attribute name="message_icon" type="com.symphony.uri" value="http://icon.com/icon"/>
+</entity>
+</entity>
+</messageML>
