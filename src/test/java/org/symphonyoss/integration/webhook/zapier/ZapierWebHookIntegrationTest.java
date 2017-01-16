@@ -16,7 +16,6 @@
 
 package org.symphonyoss.integration.webhook.zapier;
 
-import static java.util.Collections.EMPTY_MAP;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.symphonyoss.integration.webhook.zapier.ZapierEventConstants
@@ -40,6 +39,7 @@ import org.symphonyoss.integration.webhook.zapier.parser.ZapierPostMessageParser
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -91,7 +91,7 @@ public class ZapierWebHookIntegrationTest {
     unknownEventHeaders.put("Content-Type", "application/json");
     unknownEventHeaders.put(ZAPIER_EVENT_TYPE_HEADER, "read_message");
 
-    WebHookPayload payload = new WebHookPayload(EMPTY_MAP, unknownEventHeaders, body);
+    WebHookPayload payload = new WebHookPayload(Collections.<String, String>emptyMap(), unknownEventHeaders, body);
     assertNull(zapierWebHookIntegration.parse(payload));
   }
 
@@ -102,7 +102,7 @@ public class ZapierWebHookIntegrationTest {
     Map<String, String> noEventHeaders = new HashMap<>();
     noEventHeaders.put("Content-Type", "application/json");
 
-    WebHookPayload payload = new WebHookPayload(EMPTY_MAP, noEventHeaders, body);
+    WebHookPayload payload = new WebHookPayload(Collections.<String, String>emptyMap(), noEventHeaders, body);
     assertNull(zapierWebHookIntegration.parse(payload));
   }
 
@@ -110,7 +110,7 @@ public class ZapierWebHookIntegrationTest {
   public void testFailReadingJSON() throws WebHookParseException {
       String body = "";
 
-      WebHookPayload payload = new WebHookPayload(EMPTY_MAP, EMPTY_MAP, body);
+      WebHookPayload payload = new WebHookPayload(Collections.<String, String>emptyMap(), Collections.<String, String>emptyMap(), body);
       zapierWebHookIntegration.parse(payload);
   }
 
@@ -118,7 +118,7 @@ public class ZapierWebHookIntegrationTest {
   public void testPostMessageHeaderContentIcon() throws IOException, WebHookParseException {
     String expected = readFile("zapierHeaderContentIcon.xml");
     String body = readFile("zapierHeaderContentIcon.json");
-    WebHookPayload payload = new WebHookPayload(EMPTY_MAP, headers, body);
+    WebHookPayload payload = new WebHookPayload(Collections.<String, String>emptyMap(), headers, body);
 
     String result = zapierWebHookIntegration.parse(payload);
 
@@ -129,7 +129,7 @@ public class ZapierWebHookIntegrationTest {
   public void testPostMessageHeaderContent() throws IOException, WebHookParseException {
     String expected = readFile("zapierHeaderContent.xml");
     String body = readFile("zapierHeaderContent.json");
-    WebHookPayload payload = new WebHookPayload(EMPTY_MAP, headers, body);
+    WebHookPayload payload = new WebHookPayload(Collections.<String, String>emptyMap(), headers, body);
 
     String result = zapierWebHookIntegration.parse(payload);
 
@@ -140,7 +140,7 @@ public class ZapierWebHookIntegrationTest {
   public void testPostMessageHeader() throws IOException, WebHookParseException {
     String expected = readFile("zapierHeader.xml");
     String body = readFile("zapierHeader.json");
-    WebHookPayload payload = new WebHookPayload(EMPTY_MAP, headers, body);
+    WebHookPayload payload = new WebHookPayload(Collections.<String, String>emptyMap(), headers, body);
 
     String result = zapierWebHookIntegration.parse(payload);
 
@@ -151,7 +151,7 @@ public class ZapierWebHookIntegrationTest {
   public void testPostMessageContent() throws IOException, WebHookParseException {
     String expected = readFile("zapierContent.xml");
     String body = readFile("zapierContent.json");
-    WebHookPayload payload = new WebHookPayload(EMPTY_MAP, headers, body);
+    WebHookPayload payload = new WebHookPayload(Collections.<String, String>emptyMap(), headers, body);
 
     String result = zapierWebHookIntegration.parse(payload);
 
@@ -161,7 +161,7 @@ public class ZapierWebHookIntegrationTest {
   @Test
   public void testPostMessageNoHeaderNoContentWithIcon() throws IOException, WebHookParseException {
     String body = readFile("zapierNoHeaderNoContentWithIcon.json");
-    WebHookPayload payload = new WebHookPayload(EMPTY_MAP, headers, body);
+    WebHookPayload payload = new WebHookPayload(Collections.<String, String>emptyMap(), headers, body);
 
     assertNull(zapierWebHookIntegration.parse(payload));
   }
@@ -169,7 +169,7 @@ public class ZapierWebHookIntegrationTest {
   @Test
   public void testPostMessageNoHeaderNoContentNoIcon() throws IOException, WebHookParseException {
     String body = readFile("zapierNoHeaderNoContentNoIcon.json");
-    WebHookPayload payload = new WebHookPayload(EMPTY_MAP, headers, body);
+    WebHookPayload payload = new WebHookPayload(Collections.<String, String>emptyMap(), headers, body);
 
     assertNull(zapierWebHookIntegration.parse(payload));
   }
