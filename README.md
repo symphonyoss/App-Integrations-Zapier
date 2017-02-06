@@ -7,7 +7,7 @@ The Zapier WebHook Integration will allow you to add an ecosystem of 600+ apps t
 With access to a Zapier account, you can configure Zaps in order to receive notifications on Symphony.
 A Zap is a blueprint for a workflow you want to do over and over again automatically. Creating a Zap involves choosing a *trigger* and adding one or more *action* steps.
 
-Symphony supports Zapier **actions** to post messages to Symphony via Webhooks. *Symphony **cannot** be used as a trigger on Zapier.*
+Symphony supports Zapier **actions** to post messages to Symphony via WebHooks. *Symphony cannot be used as a trigger on Zapier.*
 
 ## What formats and events it supports and what it produces
 Every integration will get a message sent in a specific format (depending on what system is it dealing with) and it will usually convert it into an "entity" before it reaches the Symphony platform.
@@ -16,7 +16,7 @@ It will also, usually, identify the kind of message it will deal with based on a
 We currently support any configured action via our **action** app on Zapier.
 There, you can choose: an icon, a message header and a message body.
 
-The message header and body must follow the rules for a Symphony Message ML, which can be accessed here, although you can safely insert just pure text and your triggering app info (like a trigger related name, title or anything that will translate to text on your message).
+The message header and body must follow the rules for a Symphony Message ML, which can be accessed [here](https://rest-api.symphony.com/docs/message-format/), although you can safely insert just pure text and your triggering app info (like a trigger related name, title or anything that will translate to text on your message).
 
 ### Sample Action
 
