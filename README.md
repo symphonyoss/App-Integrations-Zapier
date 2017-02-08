@@ -13,10 +13,10 @@ Symphony supports Zapier **actions** to post messages to Symphony via WebHooks. 
 Every integration will get a message sent in a specific format (depending on what system is it dealing with) and it will usually convert it into an "entity" before it reaches the Symphony platform.
 It will also, usually, identify the kind of message it will deal with based on an "event" identifier, that varies based on which system is it integrating with.
 
-We currently support any configured action via our **action** app on Zapier.
+We currently support any configured action via our **action** app on Zapier, which you can check it out [here](https://zapier.com/zapbook/symphony/).
 There, you can choose: an icon, a message header and a message body.
 
-The message header and body must follow the rules for a Symphony Message ML, which can be accessed [here](https://rest-api.symphony.com/docs/message-format/), although you can safely insert just pure text and your triggering app info (like a trigger related name, title or anything that will translate to text on your message).
+The message header and body must follow the rules for a Symphony Message ML, which can be accessed [here](https://rest-api.symphony.com/docs/message-format/), although you can safely insert just plain text and your triggering app info (like a trigger related name, title or anything that will translate to text on your message).
 
 ### Sample Action
 
