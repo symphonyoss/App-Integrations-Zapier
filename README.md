@@ -3,6 +3,8 @@ _Note that this project depends on internal Symphony infrastructure (repository.
 # Zapier WebHook Integration
 The Zapier WebHook Integration will allow you to add an ecosystem of 600+ apps to the Symphony platform. Zapier sends notifications and content to Symphony IMs or rooms from your favorite applications including GMail, Office 365, Trello, HubSpot, Twitter, LinkedIn, and hundreds of other productivity apps. 
 
+[Build instructions for the Java developer](#build-instructions-for-the-java-developer)
+
 ## How it works
 With access to a Zapier account, you can configure Zaps in order to receive notifications on Symphony.
 A Zap is a blueprint for a workflow you want to do over and over again automatically. Creating a Zap involves choosing a *trigger* and adding one or more *action* steps.
@@ -10,8 +12,12 @@ A Zap is a blueprint for a workflow you want to do over and over again automatic
 Symphony supports Zapier **actions** to post messages to Symphony via WebHooks. *Symphony cannot be used as a trigger on Zapier.*
 
 ## What formats and events it supports and what it produces
-Every integration will get a message sent in a specific format (depending on what system is it dealing with) and it will usually convert it into an "entity" before it reaches the Symphony platform.
-It will also, usually, identify the kind of message it will deal with based on an "event" identifier, that varies based on which system is it integrating with.
+Every integration will receive a message sent in a specific format (depending on the system it ingests) and will usually convert it into an "entity" before it reaches the Symphony platform. It will also, usually, identify the kind of message based on an "event" identifier, which varies based on the third-party system.
+
+This "entity" we generate will have information necessary to be rendered on Symphony Platform, distributed by tags.
+Although these tags may vary greatly among every integration event, they must all have at least the tag ``<presentationML>``, which follows the rules presented [here](https://rest-api.symphony.com/docs/message-format/).
+This is a special tag that must hold all content that would be otherwise drawn on Symphony by the other tags, in a single string on its content.
+It is important that it contains matching information as it is used for visualising a message when a specific renderer is not present, on Symphony mobile apps or content export.
 
 We currently support any configured action via our **action** app on Zapier, which you can check it out [here](https://zapier.com/zapbook/symphony/).
 There, you can choose: an icon, a message header and a message body.
@@ -101,3 +107,26 @@ Here we'll show you a sample payload that Zapier will send us when a configured 
 ##### Message rendered on Symphony
 
 ![Sample Action](src/docs/samples/sample_trello_action_rendered.png)
+
+
+# Build instructions for the Java developer
+
+### What you’ll build
+You’ll build an integration module to be used with the [Integration Bridge](https://github.com/symphonyoss/App-Integrations-Core).
+
+If you develop a new integration, to get it up and running you also need to add it to the core project's web pom file.
+
+### What you’ll need
+* JDK 1.7
+* Maven 3.0.5+
+
+### Build with maven
+Zapier WebHook Integration is compatible with Apache Maven 3.0.5 or above. If you don’t already have Maven installed you can follow the instructions at maven.apache.org.
+
+To start from scratch, do the following:
+
+1. Clone the source repository using Git: `git clone git@github.com:symphonyoss/App-Integrations-Zapier.git`
+2. cd into _App-Integrations-Zapier_
+3. Build using maven: `mvn clean install`
+
+Notes: If you don't have access to Symphony Artifactory you should build the Commons module first to have it in your local maven repository. You can find the App-Integrations-Commons project [here](https://github.com/symphonyoss/App-Integrations-Commons)
