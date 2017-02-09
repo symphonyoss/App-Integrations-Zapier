@@ -3,7 +3,7 @@ _Note that this project depends on internal Symphony infrastructure (repository.
 # Zapier WebHook Integration
 The Zapier WebHook Integration will allow you to add an ecosystem of 600+ apps to the Symphony platform. Zapier sends notifications and content to Symphony IMs or rooms from your favorite applications including GMail, Office 365, Trello, HubSpot, Twitter, LinkedIn, and hundreds of other productivity apps. 
 
-[Build instructions for the Java developer](#build-instructions-for-the-java-developer)
+## [Build instructions for the Java developer](#build-instructions-for-the-java-developer)
 
 ## How it works
 With access to a Zapier account, you can configure Zaps in order to receive notifications on Symphony.
