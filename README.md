@@ -114,7 +114,7 @@ Here we'll show you a sample payload that Zapier will send us when a configured 
 ### What you’ll build
 You’ll build an integration module to be used with the [Integration Bridge](https://github.com/symphonyoss/App-Integrations-Core).
 
-If you develop a new integration, to get it up and running you also need to add it to the core project's web pom file.
+If you develop a new integration, to get it up and running you'll also need to add it to the core project's web pom file.
 
 ### What you’ll need
 * JDK 1.7
