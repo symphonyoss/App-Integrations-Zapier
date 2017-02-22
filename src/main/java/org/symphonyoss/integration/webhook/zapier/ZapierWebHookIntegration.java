@@ -16,13 +16,10 @@
 
 package org.symphonyoss.integration.webhook.zapier;
 
-import com.symphony.logging.ISymphonyLogger;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.symphonyoss.integration.json.JsonUtils;
-import org.symphonyoss.integration.logging.IntegrationBridgeCloudLoggerFactory;
 import org.symphonyoss.integration.webhook.WebHookIntegration;
 import org.symphonyoss.integration.webhook.WebHookPayload;
 import org.symphonyoss.integration.webhook.exception.WebHookParseException;
@@ -44,9 +41,6 @@ import javax.annotation.PostConstruct;
  */
 @Component
 public class ZapierWebHookIntegration extends WebHookIntegration {
-
-  private static final ISymphonyLogger LOG =
-      IntegrationBridgeCloudLoggerFactory.getLogger(ZapierWebHookIntegration.class);
 
   private Map<String, ZapierParser> parsers = new HashMap<>();
 
