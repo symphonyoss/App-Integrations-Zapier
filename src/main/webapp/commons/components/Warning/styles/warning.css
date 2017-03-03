@@ -1,0 +1,32 @@
+.warning-box {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	position: relative;
+	top: 0;
+	left: 0;
+	width: 100%;
+	padding: 10px;
+	margin: 0 0 4px 0;
+	border-radius: 4px;
+	box-sizing: border-box;
+	color: #000;
+}
+.warning-box.warning {
+	background: #fcf8e3;
+}
+.warning-box.error {
+	background: #f00;
+}
+.warning-box.success {
+	background: #7ce0bb;
+}
+.warning-box.required {
+	background: #FE7A7D;
+}
+.warning-box div {
+	max-width: 90%;
+}
+.warning-box div a {
+	color: #000;
+}

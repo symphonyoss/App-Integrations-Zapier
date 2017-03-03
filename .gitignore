@@ -4,3 +4,6 @@ target/
 # Intellij
 .idea
 *.iml
+
+# NPM
+src/main/webapp/node_modules
