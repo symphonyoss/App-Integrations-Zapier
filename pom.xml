@@ -11,6 +11,11 @@
 
     <artifactId>integration-zapier</artifactId>
 
+    <properties>
+        <webapp.directory>zapier</webapp.directory>
+        <rpm.name>zapier-symphony-integration</rpm.name>
+    </properties>
+
     <description>Zapier WebHook Integration</description>
     <url>https://github.com/symphonyoss/App-Integrations-Zapier</url>
 
