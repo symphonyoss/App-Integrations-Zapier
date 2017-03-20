@@ -45,22 +45,36 @@
         </repository>
     </repositories>
 
-    <pluginRepositories>
-        <pluginRepository>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <id>symphony</id>
-            <name>plugins-release</name>
-            <url>https://repo.symphony.com/artifactory/plugins-release</url>
-        </pluginRepository>
-        <pluginRepository>
-            <snapshots/>
-            <id>snapshots</id>
-            <name>plugins-snapshot</name>
-            <url>https://repo.symphony.com/artifactory/plugins-snapshot</url>
-        </pluginRepository>
-    </pluginRepositories>
+    <profiles>
+        <profile>
+            <id>Artifactory</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+                <property>
+                    <name>symphonyArtifactory</name>
+                    <value>true</value>
+                </property>
+            </activation>
+
+            <repositories>
+                <repository>
+                    <id>symphony</id>
+                    <name>symphony releases</name>
+                    <url>https://repo.symphony.com/artifactory/libs-release</url>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </repository>
+                <repository>
+                    <id>snapshots</id>
+                    <url>https://repo.symphony.com/artifactory/libs-snapshot</url>
+                    <releases>
+                        <enabled>false</enabled>
+                    </releases>
+                </repository>
+            </repositories>
+        </profile>
+    </profiles>
 
     <developers>
         <developer>
