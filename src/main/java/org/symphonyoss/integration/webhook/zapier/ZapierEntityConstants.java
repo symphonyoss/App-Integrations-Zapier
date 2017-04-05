@@ -54,4 +54,16 @@ public final class ZapierEntityConstants {
 
   public static final String INTEGRATION_NAME = "zapier";
 
+  // MessageML v2
+
+  public static final String TYPE_FIELD = "type";
+
+  public static final String VERSION_FIELD = "version";
+
+  public static final String ICON_FIELD = "icon";
+
+  public static final String HEADER_FIELD = "header";
+
+  public static final String BODY_FIELD = "body";
+
 }

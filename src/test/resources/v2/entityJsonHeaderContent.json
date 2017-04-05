@@ -1,0 +1,9 @@
+{
+  "zapierPostMessage": {
+    "type": "com.symphony.integration.zapier.event.v2.postMessage",
+    "version": "1.0",
+    "header": "New Trello Card Created",
+    "body": "<b>Card Name:</b> Card added for symphony innovate<br/><b>Card Link:</b> https://trello.com/c/8Md51YdW/15-card-added-for-symphony-innovate",
+    "icon": ""
+  }
+}
