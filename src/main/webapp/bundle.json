@@ -4,10 +4,10 @@
       "type": "sandbox",
       "id": "devZapierWebHookIntegration",
       "name": "Zapier",
-      "blurb": "Zapier in Development Mode",
+      "blurb": "Zapier Webhook Integration in Development Mode",
       "publisher": "Symphony",
-      "url": "https://localhost.symphony.com/apps/zapier/controller.html?configurationId=57e82afce4b07fea0651e8ac&botUserId=7627861923343&id=devZapierWebHookIntegration&context=apps/zapier",
-      "icon": "https://localhost.symphony.com/apps/zapier/img/appstore-logo.png",
+      "url": "https://localhost.symphony.com:4000/controller.html?configurationId=58598bfce4b057438e69f51f&botUserId=346621040656487&id=devZapierWebHookIntegration",
+      "icon": "https://localhost.symphony.com:4000/img/appstore-logo.png",
       "domain": ".symphony.com"
     }
   ]
