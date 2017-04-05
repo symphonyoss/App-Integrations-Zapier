@@ -20,6 +20,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.symphonyoss.integration.json.JsonUtils;
+import org.symphonyoss.integration.model.message.Message;
 import org.symphonyoss.integration.webhook.WebHookIntegration;
 import org.symphonyoss.integration.webhook.WebHookPayload;
 import org.symphonyoss.integration.webhook.exception.WebHookParseException;
@@ -70,7 +71,7 @@ public class ZapierWebHookIntegration extends WebHookIntegration {
    * @throws WebHookParseException when any exception occurs when parsing the payload.
    */
   @Override
-  public String parse(WebHookPayload input) throws WebHookParseException {
+  public Message parse(WebHookPayload input) throws WebHookParseException {
     try {
       String webhookEvent = input.getHeaders().get(ZapierEventConstants.ZAPIER_EVENT_TYPE_HEADER);
       JsonNode rootNode = JsonUtils.readTree(input.getBody());
