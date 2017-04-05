@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-package org.symphonyoss.integration.webhook.zapier.parser;
+package org.symphonyoss.integration.webhook.zapier.parser.v1;
 
+import static org.symphonyoss.integration.messageml.MessageMLFormatConstants.MESSAGEML_END;
+import static org.symphonyoss.integration.messageml.MessageMLFormatConstants.MESSAGEML_START;
 import static org.symphonyoss.integration.webhook.zapier.ZapierEntityConstants.ACTION_FIELDS;
 import static org.symphonyoss.integration.webhook.zapier.ZapierEntityConstants.ACTION_FIELDS_FULL;
 import static org.symphonyoss.integration.webhook.zapier.ZapierEntityConstants.ACTION_FIELDS_RAW;
@@ -30,11 +32,17 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.symphonyoss.integration.entity.EntityBuilder;
 import org.symphonyoss.integration.exception.EntityXMLGeneratorException;
+import org.symphonyoss.integration.model.message.Message;
+import org.symphonyoss.integration.model.message.MessageMLVersion;
 import org.symphonyoss.integration.parser.ParserUtils;
 import org.symphonyoss.integration.parser.SafeString;
 import org.symphonyoss.integration.parser.SafeStringUtils;
+import org.symphonyoss.integration.webhook.WebHookPayload;
+import org.symphonyoss.integration.webhook.exception.WebHookParseException;
 import org.symphonyoss.integration.webhook.zapier.model.ZapierMessageDescriptor;
 import org.symphonyoss.integration.webhook.zapier.model.ZapierZap;
+import org.symphonyoss.integration.webhook.zapier.parser.ZapierParser;
+import org.symphonyoss.integration.webhook.zapier.parser.ZapierParserException;
 
 import java.util.Arrays;
 import java.util.List;
@@ -44,7 +52,7 @@ import java.util.List;
  * Created by ecarrenho on 22/09/16.
  */
 @Component
-public class ZapierPostMessageParser implements ZapierParser {
+public class ZapierPostMessageParser extends ZapierParser {
 
   /**
    * Zapier message content to be displayed to the user. Formats the message text as:
@@ -123,7 +131,7 @@ public class ZapierPostMessageParser implements ZapierParser {
    * </pre>
    */
   @Override
-  public String parse(String eventType, JsonNode payload) throws ZapierParserException {
+  public Message buildMessage(String eventType, JsonNode payload) throws ZapierParserException {
     final SafeString formattedText = createFormattedText(payload);
     if (SafeStringUtils.isEmpty(formattedText)) {
       return null;
@@ -134,7 +142,15 @@ public class ZapierPostMessageParser implements ZapierParser {
       final String entityMl = eventBuilder
           .presentationML(formattedText)
           .generateXML();
-      return entityMl;
+
+      String messageML = MESSAGEML_START + entityMl + MESSAGEML_END;
+
+      Message message = new Message();
+      message.setFormat(Message.FormatEnum.MESSAGEML);
+      message.setVersion(MessageMLVersion.V1);
+      message.setMessage(messageML);
+
+      return message;
     } catch (EntityXMLGeneratorException e) {
       throw new ZapierParserException("Something went wrong while building the message for Zapier.", e);
     }

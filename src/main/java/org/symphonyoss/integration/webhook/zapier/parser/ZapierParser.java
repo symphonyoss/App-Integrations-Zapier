@@ -17,28 +17,38 @@
 package org.symphonyoss.integration.webhook.zapier.parser;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.symphonyoss.integration.json.JsonUtils;
+import org.symphonyoss.integration.model.message.Message;
+import org.symphonyoss.integration.webhook.WebHookPayload;
+import org.symphonyoss.integration.webhook.exception.WebHookParseException;
+import org.symphonyoss.integration.webhook.parser.WebHookParser;
+import org.symphonyoss.integration.webhook.zapier.ZapierEventConstants;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
- * Interface that Zapier parsers should follow.
+ * Base class that Zapier parsers should extend.
  *
  * Created by ecarrenho on 22/09/16.
  */
-public interface ZapierParser {
+public abstract class ZapierParser implements WebHookParser {
 
-  /**
-   * Returns the list of handled events.
-   * @return List of events handled by the given parser.
-   */
-  List<String> getEvents();
+  @Override
+  public Message parse(WebHookPayload payload) throws WebHookParseException {
+    try {
+      String webhookEvent = payload.getHeaders().get(ZapierEventConstants.ZAPIER_EVENT_TYPE_HEADER);
+      JsonNode rootNode = JsonUtils.readTree(payload.getBody());
 
-  /**
-   * Returns the messageML document resulting from parsing the Zapier payload.
-   * @param eventType The type of the event to be parsed
-   * @param payload Zapier payload
-   * @return messageML resulting from the payload parsing
-   */
-  String parse(String eventType, JsonNode payload) throws ZapierParserException;
+      return buildMessage(webhookEvent, rootNode);
+    } catch (IOException e) {
+      throw new ZapierParserException(
+          "Something went wrong while trying to validate a message from Zapier", e);
+    }
+  }
+
+  protected abstract Message buildMessage(String webhookEvent, JsonNode rootNode);
+
 }
 

@@ -1,0 +1,9 @@
+{
+  "zapierPostMessage": {
+    "type": "com.symphony.integration.zapier.event.v2.postMessage",
+    "version": "1.0",
+    "header": "New Trello Card Created",
+    "body": "",
+    "icon": ""
+  }
+}
