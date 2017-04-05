@@ -2,8 +2,7 @@
 import React from 'react';
 
 const Instructions = () => (
-  <div>
-    {/* Start editing area */}
+  <div className='setup-instructions-content'>
     <h4>Step 1</h4>
     <p>Create a <a href='https://zapier.com/'>Zapier</a> account if you do not already have one.</p>
     <p>Copy the URL provided above (Example image provided below). You will need this later to
@@ -31,7 +30,6 @@ const Instructions = () => (
     <figure>
       <img src={require('./img/zapier_settings_step4.png')} alt="Webhook configuration" />
     </figure>
-    {/* End editing area */}
   </div>
 );
 
