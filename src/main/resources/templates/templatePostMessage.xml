@@ -1,0 +1,16 @@
+<messageML>
+    <div class="entity">
+        <card class="barStyle">
+            <header>
+                <span>${entity['zapierPostMessage'].message.header}</span>
+            </header>
+            <body>
+                <div class="entity" data-entity-id="zapierPostMessage">
+                    <div class="labelBackground badge">
+                        <span>${entity['zapierPostMessage'].message.body}</span>
+                    </div>
+                </div>
+            </body>
+        </card>
+    </div>
+</messageML>
