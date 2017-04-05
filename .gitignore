@@ -1,3 +1,9 @@
+# Local run
+certs/
+env.sh
+application.yaml
+tomcat/
+
 # Maven
 target/
 
@@ -6,4 +12,6 @@ target/
 *.iml
 
 # NPM
-src/main/webapp/node_modules
+node_modules/
+dist/
+npm-debug.log
