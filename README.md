@@ -166,7 +166,7 @@ If you have a paid subscription, you can also use
 ngrok http -subdomain=my.static.subdomain 8080
 ```
 
-3. Add your locally running application to the Symphony Market
+## Add your locally running application to the Symphony Market
 
 Adjust your [bundle.json](src/main/webapp/bundle.json) located src/main/webapp/ with the URL you are exposing via ngrok, the configuration and bot id's, and the application context.
 
