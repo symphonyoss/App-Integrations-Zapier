@@ -36,3 +36,13 @@ addons:
 script:
 - "if [[ \"$TRAVIS_PULL_REQUEST\" = \"false\" && $TRAVIS_BRANCH =~ dev ]]; then mvn clean deploy --settings settings.xml ; fi"
 - "if [[ \"$TRAVIS_PULL_REQUEST\" != \"false\" ]]; then mvn clean package ; fi"
+
+notifications:
+  webhooks:
+    urls:
+      - http://requestb.in/1bz2mbb1
+    on_success: change # default: always
+    on_failure: always # default: always
+    on_start: change   # default: never
+    on_cancel: always # default: always
+    on_error: always # default: always
