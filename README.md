@@ -168,11 +168,13 @@ ngrok http -subdomain=my.static.subdomain 8080
 
 3. Add your locally running application to the Symphony Market
 
-Adjust your [bundle.json](src/main/webapp/bundle.json) located src/main/webapp/ with the URL you are exposing via ngrok, and the configuration and bot id's.
+Adjust your [bundle.json](src/main/webapp/bundle.json) located src/main/webapp/ with the URL you are exposing via ngrok, the configuration and bot id's, and the application context.
 
 **_Note: The team is working on a integration-provisioning module that will automate this process; until further notice, please contact Symphony Support to get your configuration and bot id's.
 
-For instance:
+For the application context, you should always user app/<your app id> provided in the env.sh. That id should also match what you have on [application-zapier.yml](src/main/resources/application-zapier.yml)
+
+For instance, see apps/zapier present in the URL's for the controller.html and appstore-logo.png, as well as in the **context** query parameter for the controller:
 
 ```
 {
@@ -183,8 +185,8 @@ For instance:
       "name": "Zapier",
       "blurb": "Zapier Webhook Integration in Development Mode",
       "publisher": "Symphony",
-      "url": "https://6f3420e6.ngrok.io/controller.html?configurationId=58598bfce4b057438e69f51f&botUserId=346621040656487&id=devZapierWebHookIntegration",
-      "icon": "https://6f3420e6.ngrok.io/img/appstore-logo.png",
+      "url": "https://d74a790c.ngrok.io/apps/zapier/controller.html?configurationId=58598bf8e4b057438e69f517&botUserId=346621040656485&id=devZapierWebHookIntegration&context=apps/zapier",
+      "icon": "https://d74a790c.ngrok.io/apps/zapier/img/appstore-logo.png",
       "domain": ".ngrok.io"
     }
   ]
@@ -193,8 +195,8 @@ For instance:
 
 Access the application icon on your browser to make sure it works and to accept any unsafe certificates (if necessary). In the above example, the URL to acces is https://6f3420e6.ngrok.io/img/appstore-logo.png).
 
-**Build and run your application again as indicated above, to get the new bundle.js information packaged.**
+**Run your application again as indicated above, to get the new bundle.js information packaged.**
 
-Launch the Symphony client on your browser, adding your bundle.js as path of the query parameters in the URL. For instance, using the Foundation Dev Pod with the above ngrok sample URL: https://foundation-dev.symphony.com?bundle=https://6f3420e6.ngrok.io/bundle.js.
+Launch the Symphony client on your browser, adding your bundle.js as path of the query parameters in the URL. For instance, using the Foundation Dev Pod with the above ngrok sample URL: https://foundation-dev.symphony.com?bundle=https://d74a790c.ngrok.io/apps/zapier/bundle.json.
 
-Access the Symphony Market on the browser, and you should see a duplicate of your application in the application list, if the name and description provided in the bundle.js.
+Access the Symphony Market on the browser, and you should be notified to allow unauthorized apps. That is your development app added through bundle.json. Accept the notification and you should see your application in the application list, with the name and description provided in the bundle.json.
