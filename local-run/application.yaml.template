@@ -1,0 +1,10 @@
+spring:
+  profiles:
+    active: <<APP_ID>>
+
+applications:
+  <<APP_ID>>:
+    state: PROVISIONED
+    keystore:
+      file: <<CERT_FILE>>
+      password: <<CERT_PWD>>
