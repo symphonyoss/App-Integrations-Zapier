@@ -39,7 +39,6 @@ public class ZapierWebHookIntegration extends WebHookIntegration {
   @Override
   public void onCreate(String integrationUser) {
     super.onCreate(integrationUser);
-    parserResolver.healthCheckAgentService();
   }
 
   /**
