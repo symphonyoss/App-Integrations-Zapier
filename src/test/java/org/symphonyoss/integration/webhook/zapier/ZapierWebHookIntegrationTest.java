@@ -29,6 +29,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.symphonyoss.integration.model.message.Message;
 import org.symphonyoss.integration.webhook.WebHookPayload;
 import org.symphonyoss.integration.webhook.exception.WebHookParseException;
 import org.symphonyoss.integration.webhook.zapier.parser.ZapierNullParser;
@@ -120,9 +121,9 @@ public class ZapierWebHookIntegrationTest {
     String body = readFile("zapierHeaderContentIcon.json");
     WebHookPayload payload = new WebHookPayload(Collections.<String, String>emptyMap(), headers, body);
 
-    String result = zapierWebHookIntegration.parse(payload);
+    Message result = zapierWebHookIntegration.parse(payload);
 
-    assertEquals(expected, result);
+    assertEquals(expected, result.getMessage());
   }
 
   @Test
@@ -131,9 +132,9 @@ public class ZapierWebHookIntegrationTest {
     String body = readFile("zapierHeaderContent.json");
     WebHookPayload payload = new WebHookPayload(Collections.<String, String>emptyMap(), headers, body);
 
-    String result = zapierWebHookIntegration.parse(payload);
+    Message result = zapierWebHookIntegration.parse(payload);
 
-    assertEquals(expected, result);
+    assertEquals(expected, result.getMessage());
   }
 
   @Test
@@ -142,9 +143,9 @@ public class ZapierWebHookIntegrationTest {
     String body = readFile("zapierHeader.json");
     WebHookPayload payload = new WebHookPayload(Collections.<String, String>emptyMap(), headers, body);
 
-    String result = zapierWebHookIntegration.parse(payload);
+    Message result = zapierWebHookIntegration.parse(payload);
 
-    assertEquals(expected, result);
+    assertEquals(expected, result.getMessage());
   }
 
   @Test
@@ -153,9 +154,9 @@ public class ZapierWebHookIntegrationTest {
     String body = readFile("zapierContent.json");
     WebHookPayload payload = new WebHookPayload(Collections.<String, String>emptyMap(), headers, body);
 
-    String result = zapierWebHookIntegration.parse(payload);
+    Message result = zapierWebHookIntegration.parse(payload);
 
-    assertEquals(expected, result);
+    assertEquals(expected, result.getMessage());
   }
 
   @Test
