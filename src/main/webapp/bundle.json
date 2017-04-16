@@ -6,9 +6,9 @@
       "name": "Zapier",
       "blurb": "Zapier Webhook Integration in Development Mode",
       "publisher": "Symphony",
-      "url": "https://localhost.symphony.com:4000/controller.html?configurationId=58598bfce4b057438e69f51f&botUserId=346621040656487&id=devZapierWebHookIntegration",
-      "icon": "https://localhost.symphony.com:4000/img/appstore-logo.png",
-      "domain": ".symphony.com"
+      "url": "https://d74a790c.ngrok.io/apps/zapier/controller.html?configurationId=58598bf8e4b057438e69f517&botUserId=346621040656485&id=devZapierWebHookIntegration&context=apps/zapier",
+      "icon": "https://d74a790c.ngrok.io/apps/zapier/img/appstore-logo.png",
+      "domain": ".ngrok.io"
     }
   ]
 }

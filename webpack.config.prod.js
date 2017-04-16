@@ -16,14 +16,14 @@ module.exports = {
   devtool: 'source-map',
   module: {
     preLoaders: [
-      { test: /\.jsx?$/, loader: 'eslint', exclude: [ "node_modules", "dist" ] }
+      { test: /\.jsx?$/, loader: 'eslint', exclude: /node_modules/ }
     ],
     loaders: [
       { test: /\.css$/, loader: "style!css" },
       { test: /\.less$/, loader: "style!css!less" },
       {
         test: /\.jsx?$/,
-        exclude: [ "node_modules", "dist" ],
+        exclude: /node_modules/,
         loader: 'babel',
         query: {
           presets: ['react', 'es2015'],
