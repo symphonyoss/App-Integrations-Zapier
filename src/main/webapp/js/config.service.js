@@ -1,5 +1,5 @@
 export default ({
-  appTitle: 'Configure Zapier',
+  appTitle: 'Zapier',
   appName: 'Zapier',
   appSubTitle: 'Zapier Webhook Integration',
   appIMShortHand: 'Zapier', // will display "One on One with Zapier"
