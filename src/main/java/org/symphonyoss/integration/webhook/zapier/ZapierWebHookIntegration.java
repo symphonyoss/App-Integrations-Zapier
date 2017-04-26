@@ -25,6 +25,11 @@ import org.symphonyoss.integration.webhook.exception.WebHookParseException;
 import org.symphonyoss.integration.webhook.parser.WebHookParser;
 import org.symphonyoss.integration.webhook.zapier.parser.ZapierParserResolver;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.ws.rs.core.MediaType;
+
 /**
  * Implementation of a WebHook to integrate Zapier to Symphony.
  *
@@ -56,5 +61,15 @@ public class ZapierWebHookIntegration extends WebHookIntegration {
    */
   private WebHookParser getParser(WebHookPayload payload) {
     return parserResolver.getFactory().getParser(payload);
+  }
+
+  /**
+   * @see WebHookIntegration#getSupportedContentTypes()
+   */
+  @Override
+  public List<MediaType> getSupportedContentTypes() {
+    List<MediaType> supportedContentTypes = new ArrayList<>();
+    supportedContentTypes.add(MediaType.WILDCARD_TYPE);
+    return supportedContentTypes;
   }
 }
