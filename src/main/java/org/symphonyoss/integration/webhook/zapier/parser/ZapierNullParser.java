@@ -16,8 +16,11 @@
 
 package org.symphonyoss.integration.webhook.zapier.parser;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.stereotype.Component;
+import org.symphonyoss.integration.model.message.Message;
+import org.symphonyoss.integration.webhook.WebHookPayload;
+import org.symphonyoss.integration.webhook.exception.WebHookParseException;
+import org.symphonyoss.integration.webhook.parser.WebHookParser;
 
 import java.util.Collections;
 import java.util.List;
@@ -28,7 +31,7 @@ import java.util.List;
  * Created by ecarrenho on 22/09/16.
  */
 @Component
-public class ZapierNullParser implements ZapierParser {
+public class ZapierNullParser implements WebHookParser {
 
   /**
    * Returns an empty list, as this parser should not be used to validate valid events. Instead,
@@ -45,7 +48,7 @@ public class ZapierNullParser implements ZapierParser {
    * @return Null
    */
   @Override
-  public String parse(String eventType, JsonNode payload) throws ZapierParserException {
+  public Message parse(WebHookPayload payload) throws WebHookParseException {
     return null;
   }
 

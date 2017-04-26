@@ -16,29 +16,28 @@
 
 package org.symphonyoss.integration.webhook.zapier.parser;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.symphonyoss.integration.webhook.parser.WebHookParserFactory;
+import org.symphonyoss.integration.webhook.parser.WebHookParserResolver;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Interface that Zapier parsers should follow.
+ * Resolves the parser factory based on MessageML version.
  *
- * Created by ecarrenho on 22/09/16.
+ * Created by rsanchez on 05/04/17.
  */
-public interface ZapierParser {
+@Component
+public class ZapierParserResolver extends WebHookParserResolver {
 
-  /**
-   * Returns the list of handled events.
-   * @return List of events handled by the given parser.
-   */
-  List<String> getEvents();
+  @Autowired
+  private List<ZapierParserFactory> factories;
 
-  /**
-   * Returns the messageML document resulting from parsing the Zapier payload.
-   * @param eventType The type of the event to be parsed
-   * @param payload Zapier payload
-   * @return messageML resulting from the payload parsing
-   */
-  String parse(String eventType, JsonNode payload) throws ZapierParserException;
+  @Override
+  protected List<WebHookParserFactory> getFactories() {
+    return new ArrayList<WebHookParserFactory>(factories);
+  }
+
 }
-
