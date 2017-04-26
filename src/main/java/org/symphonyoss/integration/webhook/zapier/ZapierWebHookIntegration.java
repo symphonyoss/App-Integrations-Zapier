@@ -28,12 +28,13 @@ import org.symphonyoss.integration.webhook.zapier.parser.ZapierNullParser;
 import org.symphonyoss.integration.webhook.zapier.parser.ZapierParser;
 import org.symphonyoss.integration.webhook.zapier.parser.ZapierParserException;
 
+import javax.annotation.PostConstruct;
+import javax.ws.rs.core.MediaType;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.annotation.PostConstruct;
 
 /**
  * Implementation of a WebHook to integrate Zapier to Symphony.
@@ -92,5 +93,15 @@ public class ZapierWebHookIntegration extends WebHookIntegration {
   private ZapierParser getParser(String webhookEvent) {
     ZapierParser parser = parsers.get(webhookEvent);
     return parser != null ? parser : defaultZapierParser;
+  }
+
+  /**
+   * @see WebHookIntegration#getSupportedContentTypes()
+   */
+  @Override
+  public List<MediaType> getSupportedContentTypes() {
+    List<MediaType> supportedContentTypes = new ArrayList<>();
+    supportedContentTypes.add(MediaType.WILDCARD_TYPE);
+    return supportedContentTypes;
   }
 }
