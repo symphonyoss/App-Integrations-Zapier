@@ -5,12 +5,12 @@
     <parent>
         <artifactId>integration-parent</artifactId>
         <groupId>org.symphonyoss.symphony.integrations</groupId>
-        <version>0.11.1</version>
+        <version>0.11.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>integration-zapier</artifactId>
-
+    <version>0.11.1</version>
     <properties>
         <webapp.directory>zapier</webapp.directory>
         <rpm.name>zapier-symphony-integration</rpm.name>
