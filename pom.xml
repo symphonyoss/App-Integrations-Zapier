@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>integration-zapier</artifactId>
-
+    <version>0.11.1</version>
     <properties>
         <webapp.directory>zapier</webapp.directory>
         <rpm.name>zapier-symphony-integration</rpm.name>
