@@ -18,6 +18,7 @@ package org.symphonyoss.integration.webhook.zapier.parser;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.stereotype.Component;
+import org.symphonyoss.integration.webhook.exception.WebHookUnprocessableEntityException;
 
 import java.util.Collections;
 import java.util.List;
@@ -46,7 +47,8 @@ public class ZapierNullParser implements ZapierParser {
    */
   @Override
   public String parse(String eventType, JsonNode payload) throws ZapierParserException {
-    return null;
+    String message = String.format("Event %s not handled by the Zapier parsers", eventType);
+    throw new WebHookUnprocessableEntityException(message);
   }
 
 }
