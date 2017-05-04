@@ -27,6 +27,8 @@ import static org.symphonyoss.integration.webhook.zapier.ZapierEventConstants.PO
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.symphonyoss.integration.entity.EntityBuilder;
 import org.symphonyoss.integration.exception.EntityXMLGeneratorException;
@@ -45,6 +47,8 @@ import java.util.List;
  */
 @Component
 public class ZapierPostMessageParser implements ZapierParser {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(ZapierPostMessageParser.class);
 
   /**
    * Zapier message content to be displayed to the user. Formats the message text as:
@@ -125,7 +129,9 @@ public class ZapierPostMessageParser implements ZapierParser {
   @Override
   public String parse(String eventType, JsonNode payload) throws ZapierParserException {
     final SafeString formattedText = createFormattedText(payload);
+
     if (SafeStringUtils.isEmpty(formattedText)) {
+      LOGGER.warn("Fields {} and {} are empty. No messages will be posted", MESSAGE_HEADER, MESSAGE_CONTENT);
       return null;
     }
 
@@ -144,14 +150,10 @@ public class ZapierPostMessageParser implements ZapierParser {
    * Creates the EntityBuilder with nested entities: zap and action fields for a post message event.
    */
   private EntityBuilder createBuilderWithEntities(JsonNode payload, String eventType) {
-
     final ZapierZap zap = new ZapierZap(payload.path(ZAP));
-    final ZapierMessageDescriptor descriptor = new ZapierMessageDescriptor(payload.path
-        (ACTION_FIELDS));
-    final ZapierMessageDescriptor descriptorFull = new ZapierMessageDescriptor(payload.path
-        (ACTION_FIELDS_FULL));
-    final ZapierMessageDescriptor descriptorRaw = new ZapierMessageDescriptor(payload.path
-        (ACTION_FIELDS_RAW));
+    final ZapierMessageDescriptor descriptor = new ZapierMessageDescriptor(payload.path(ACTION_FIELDS));
+    final ZapierMessageDescriptor descriptorFull = new ZapierMessageDescriptor(payload.path(ACTION_FIELDS_FULL));
+    final ZapierMessageDescriptor descriptorRaw = new ZapierMessageDescriptor(payload.path(ACTION_FIELDS_RAW));
 
     final EntityBuilder eventBuilder = EntityBuilder.forIntegrationEvent(INTEGRATION_NAME,
         eventType)
@@ -167,7 +169,6 @@ public class ZapierPostMessageParser implements ZapierParser {
    * Formats the text message for the Zapier event, with message header and body.
    */
   private SafeString createFormattedText(JsonNode payload) {
-
     // Get message header and content from the payload
     final JsonNode actionFields = payload.path(ACTION_FIELDS);
     String messageHeader = actionFields.path(MESSAGE_HEADER).textValue();
@@ -182,6 +183,7 @@ public class ZapierPostMessageParser implements ZapierParser {
             messageHeader, messageContent);
       }
     } else if (StringUtils.isNotBlank(messageContent)) {
+      LOGGER.info("Required field {} is blank", MESSAGE_HEADER);
 
       // Header is blank, content is not, formats the message with only the received content
       return ParserUtils.presentationFormat(POST_MESSAGE_FORMATTED_TEXT_BODY, messageContent);

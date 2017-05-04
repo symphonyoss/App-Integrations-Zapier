@@ -18,8 +18,8 @@ package org.symphonyoss.integration.webhook.zapier;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import static org.symphonyoss.integration.webhook.zapier.ZapierEventConstants
-    .ZAPIER_EVENT_TYPE_HEADER;
+import static org.junit.Assert.fail;
+import static org.symphonyoss.integration.webhook.zapier.ZapierEventConstants.ZAPIER_EVENT_TYPE_HEADER;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.Before;
@@ -29,9 +29,11 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.symphonyoss.integration.exception.ExceptionMessageFormatter;
 import org.symphonyoss.integration.model.message.Message;
 import org.symphonyoss.integration.webhook.WebHookPayload;
 import org.symphonyoss.integration.webhook.exception.WebHookParseException;
+import org.symphonyoss.integration.webhook.exception.WebHookUnprocessableEntityException;
 import org.symphonyoss.integration.webhook.zapier.parser.ZapierNullParser;
 import org.symphonyoss.integration.webhook.zapier.parser.ZapierParser;
 import org.symphonyoss.integration.webhook.zapier.parser.ZapierParserException;
@@ -93,7 +95,13 @@ public class ZapierWebHookIntegrationTest {
     unknownEventHeaders.put(ZAPIER_EVENT_TYPE_HEADER, "read_message");
 
     WebHookPayload payload = new WebHookPayload(Collections.<String, String>emptyMap(), unknownEventHeaders, body);
-    assertNull(zapierWebHookIntegration.parse(payload));
+
+    try {
+      zapierWebHookIntegration.parse(payload);
+      fail();
+    } catch (WebHookUnprocessableEntityException e) {
+      assertUnprocessableEntityException(e, unknownEventHeaders.get(ZAPIER_EVENT_TYPE_HEADER));
+    }
   }
 
   @Test
@@ -104,15 +112,29 @@ public class ZapierWebHookIntegrationTest {
     noEventHeaders.put("Content-Type", "application/json");
 
     WebHookPayload payload = new WebHookPayload(Collections.<String, String>emptyMap(), noEventHeaders, body);
-    assertNull(zapierWebHookIntegration.parse(payload));
+
+    try {
+      zapierWebHookIntegration.parse(payload);
+      fail();
+    } catch (WebHookUnprocessableEntityException e) {
+      assertUnprocessableEntityException(e, null);
+    }
+  }
+
+  private void assertUnprocessableEntityException(WebHookUnprocessableEntityException e,
+      String eventType) {
+    String expectedMessage = ExceptionMessageFormatter.format("Webhook Dispatcher",
+        "Event " + eventType + " not handled by the Zapier parsers");
+    assertEquals(expectedMessage, e.getMessage());
   }
 
   @Test(expected = ZapierParserException.class)
   public void testFailReadingJSON() throws WebHookParseException {
-      String body = "";
+    String body = "";
 
-      WebHookPayload payload = new WebHookPayload(Collections.<String, String>emptyMap(), Collections.<String, String>emptyMap(), body);
-      zapierWebHookIntegration.parse(payload);
+    WebHookPayload payload = new WebHookPayload(Collections.<String, String>emptyMap(),
+        Collections.<String, String>emptyMap(), body);
+    zapierWebHookIntegration.parse(payload);
   }
 
   @Test
