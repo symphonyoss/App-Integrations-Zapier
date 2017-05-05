@@ -29,6 +29,8 @@ import static org.symphonyoss.integration.webhook.zapier.ZapierEventConstants.PO
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.symphonyoss.integration.entity.EntityBuilder;
 import org.symphonyoss.integration.exception.EntityXMLGeneratorException;
@@ -56,6 +58,8 @@ import java.util.List;
  */
 @Component
 public class ZapierPostMessageParser implements WebHookParser {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(ZapierPostMessageParser.class);
 
   /**
    * Zapier message content to be displayed to the user. Formats the message text as:
@@ -148,8 +152,10 @@ public class ZapierPostMessageParser implements WebHookParser {
    */
   private Message buildMessage(String eventType, JsonNode payload) throws ZapierParserException {
     final SafeString formattedText = createFormattedText(payload);
+
     if (SafeStringUtils.isEmpty(formattedText)) {
-      return null;
+      String errorMessage = String.format("Fields {} and {} are empty.", MESSAGE_HEADER, MESSAGE_CONTENT);
+      throw new ZapierParserException(errorMessage);
     }
 
     try {
@@ -177,21 +183,15 @@ public class ZapierPostMessageParser implements WebHookParser {
   private EntityBuilder createBuilderWithEntities(JsonNode payload, String eventType) {
 
     final ZapierZap zap = new ZapierZap(payload.path(ZAP));
-    final ZapierMessageDescriptor descriptor = new ZapierMessageDescriptor(payload.path
-        (ACTION_FIELDS));
-    final ZapierMessageDescriptor descriptorFull = new ZapierMessageDescriptor(payload.path
-        (ACTION_FIELDS_FULL));
-    final ZapierMessageDescriptor descriptorRaw = new ZapierMessageDescriptor(payload.path
-        (ACTION_FIELDS_RAW));
+    final ZapierMessageDescriptor descriptor = new ZapierMessageDescriptor(payload.path(ACTION_FIELDS));
+    final ZapierMessageDescriptor descriptorFull = new ZapierMessageDescriptor(payload.path(ACTION_FIELDS_FULL));
+    final ZapierMessageDescriptor descriptorRaw = new ZapierMessageDescriptor(payload.path(ACTION_FIELDS_RAW));
 
-    final EntityBuilder eventBuilder = EntityBuilder.forIntegrationEvent(INTEGRATION_NAME,
-        eventType)
+    return EntityBuilder.forIntegrationEvent(INTEGRATION_NAME, eventType)
         .nestedEntity(zap.toEntity())
         .nestedEntity(descriptor.toEntity(ACTION_FIELDS))
         .nestedEntity(descriptorFull.toEntity(ACTION_FIELDS_FULL))
         .nestedEntity(descriptorRaw.toEntity(ACTION_FIELDS_RAW));
-
-    return eventBuilder;
   }
 
   /**
@@ -213,6 +213,7 @@ public class ZapierPostMessageParser implements WebHookParser {
             messageHeader, messageContent);
       }
     } else if (StringUtils.isNotBlank(messageContent)) {
+      LOGGER.info("Required field {} is blank", MESSAGE_HEADER);
 
       // Header is blank, content is not, formats the message with only the received content
       return ParserUtils.presentationFormat(POST_MESSAGE_FORMATTED_TEXT_BODY, messageContent);

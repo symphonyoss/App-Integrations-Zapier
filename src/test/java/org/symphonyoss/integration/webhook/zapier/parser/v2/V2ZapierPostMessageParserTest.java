@@ -147,4 +147,23 @@ public class V2ZapierPostMessageParserTest {
     assertEquals(expectedEntityJson, result.getData());
   }
 
+  @Test(expected = ZapierParserException.class)
+  public void testPostMessageNoHeaderNoContentWithIcon() throws IOException, WebHookParseException {
+    parser.init();
+
+    String body = readFile("zapierNoHeaderNoContentWithIcon.json");
+    WebHookPayload payload = new WebHookPayload(Collections.<String, String>emptyMap(), headers, body);
+
+    parser.parse(payload);
+  }
+
+  @Test(expected = ZapierParserException.class)
+  public void testPostMessageNoHeaderNoContentNoIcon() throws IOException, WebHookParseException {
+    parser.init();
+
+    String body = readFile("zapierNoHeaderNoContentNoIcon.json");
+    WebHookPayload payload = new WebHookPayload(Collections.<String, String>emptyMap(), headers, body);
+
+    parser.parse(payload);
+  }
 }
