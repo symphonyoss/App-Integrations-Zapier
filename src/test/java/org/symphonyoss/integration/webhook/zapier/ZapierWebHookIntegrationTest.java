@@ -145,10 +145,15 @@ public class ZapierWebHookIntegrationTest {
   @Test
   public void testPostMessageContentWithMultipleLinksAndMarkups()
       throws IOException, WebHookParseException {
+    WebHookParserFactory factory = mock(WebHookParserFactory.class);
+    doReturn(factory).when(parserResolver).getFactory();
+
     String expected = readFile("zapierContentWithMultipleLinksAndMarkups.xml");
     String body = readFile("zapierContentWithMultipleLinksAndMarkups.json");
     WebHookPayload payload =
         new WebHookPayload(Collections.<String, String>emptyMap(), headers, body);
+
+    doReturn(new ZapierPostMessageParser()).when(factory).getParser(payload);
 
     Message result = zapierWebHookIntegration.parse(payload);
 
