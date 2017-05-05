@@ -25,7 +25,7 @@ import org.symphonyoss.integration.webhook.exception.WebHookParseException;
  */
 public class ZapierParserException extends WebHookParseException {
 
-  private static final String COMPONENT = "Trello Webhook Dispatcher";
+  private static final String COMPONENT = "Zapier Webhook Dispatcher";
 
   /**
    * A Zapier exception.

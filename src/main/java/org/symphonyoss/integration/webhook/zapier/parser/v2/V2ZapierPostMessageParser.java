@@ -3,6 +3,7 @@ package org.symphonyoss.integration.webhook.zapier.parser.v2;
 import static org.symphonyoss.integration.parser.ParserUtils.MESSAGEML_LINEBREAK;
 import static org.symphonyoss.integration.webhook.zapier.ZapierEntityConstants.ACTION_FIELDS;
 import static org.symphonyoss.integration.webhook.zapier.ZapierEntityConstants.MESSAGE_CONTENT;
+import static org.symphonyoss.integration.webhook.zapier.ZapierEntityConstants.MESSAGE_HEADER;
 import static org.symphonyoss.integration.webhook.zapier.ZapierEventConstants.POST_MESSAGE;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -14,7 +15,6 @@ import org.symphonyoss.integration.model.message.Message;
 import org.symphonyoss.integration.webhook.WebHookPayload;
 import org.symphonyoss.integration.webhook.exception.WebHookParseException;
 import org.symphonyoss.integration.webhook.parser.WebHookParser;
-import org.symphonyoss.integration.webhook.parser.metadata.EntityObject;
 import org.symphonyoss.integration.webhook.parser.metadata.MetadataParser;
 import org.symphonyoss.integration.webhook.zapier.parser.ZapierParserException;
 
@@ -78,7 +78,13 @@ public class V2ZapierPostMessageParser extends MetadataParser implements WebHook
   protected void preProcessInputData(JsonNode input) {
     JsonNode actionNode = input.path(ACTION_FIELDS);
 
+    String messageHeader = actionNode.path(MESSAGE_HEADER).asText(StringUtils.EMPTY);
     String messageContent = actionNode.path(MESSAGE_CONTENT).asText(StringUtils.EMPTY);
+
+    if ((StringUtils.isEmpty(messageHeader)) && (StringUtils.isEmpty(messageContent))) {
+      String errorMessage = String.format("Fields {} and {} are empty.", MESSAGE_HEADER, MESSAGE_CONTENT);
+      throw new ZapierParserException(errorMessage);
+    }
 
     if (StringUtils.isNotEmpty(messageContent)) {
       messageContent = messageContent.replace("\n", MESSAGEML_LINEBREAK);

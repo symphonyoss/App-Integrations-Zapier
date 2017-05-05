@@ -18,7 +18,6 @@ package org.symphonyoss.integration.webhook.zapier.parser.v1;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.symphonyoss.integration.webhook.zapier.ZapierEventConstants.POST_MESSAGE;
 import static org.symphonyoss.integration.webhook.zapier.ZapierEventConstants.ZAPIER_EVENT_TYPE_HEADER;
 
@@ -127,20 +126,20 @@ public class ZapierPostMessageParserTest {
     assertEquals(expected, result.getMessage());
   }
 
-  @Test
+  @Test(expected = ZapierParserException.class)
   public void testPostMessageNoHeaderNoContentWithIcon() throws IOException, WebHookParseException {
     String body = readFile("zapierNoHeaderNoContentWithIcon.json");
     WebHookPayload payload = new WebHookPayload(Collections.<String, String>emptyMap(), headers, body);
 
-    assertNull(parser.parse(payload));
+    parser.parse(payload);
   }
 
-  @Test
+  @Test(expected = ZapierParserException.class)
   public void testPostMessageNoHeaderNoContentNoIcon() throws IOException, WebHookParseException {
     String body = readFile("zapierNoHeaderNoContentNoIcon.json");
     WebHookPayload payload = new WebHookPayload(Collections.<String, String>emptyMap(), headers, body);
 
-    assertNull(parser.parse(payload));
+    parser.parse(payload);
   }
 
 }

@@ -1,16 +1,20 @@
 <messageML>
     <div class="entity">
         <card class="barStyle">
-            <header>
-                <span>${entity['zapierPostMessage'].message.header}</span>
-            </header>
-            <body>
-                <div class="entity" data-entity-id="zapierPostMessage">
-                    <div class="labelBackground badge">
-                        <span>${entity['zapierPostMessage'].message.body}</span>
+            <#if (entity['zapierPostMessage'].message.header)??>
+                <header>
+                    <span>${entity['zapierPostMessage'].message.header}</span>
+                </header>
+            </#if>
+            <#if (entity['zapierPostMessage'].message.body)??>
+                <body>
+                    <div class="entity" data-entity-id="zapierPostMessage">
+                        <div class="labelBackground badge">
+                            <span>${entity['zapierPostMessage'].message.body}</span>
+                        </div>
                     </div>
-                </div>
-            </body>
+                </body>
+            </#if>
         </card>
     </div>
 </messageML>
