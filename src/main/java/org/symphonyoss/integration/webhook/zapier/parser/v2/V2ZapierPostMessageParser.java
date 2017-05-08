@@ -12,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.symphonyoss.integration.json.JsonUtils;
 import org.symphonyoss.integration.model.message.Message;
+import org.symphonyoss.integration.parser.ParserUtils;
 import org.symphonyoss.integration.webhook.WebHookPayload;
 import org.symphonyoss.integration.webhook.exception.WebHookParseException;
 import org.symphonyoss.integration.webhook.parser.WebHookParser;
@@ -86,8 +87,14 @@ public class V2ZapierPostMessageParser extends MetadataParser implements WebHook
       throw new ZapierParserException(errorMessage);
     }
 
+    if (StringUtils.isNotEmpty(messageHeader)) {
+      messageHeader = ParserUtils.markupLinks(messageHeader);
+      ((ObjectNode) actionNode).put(MESSAGE_HEADER, messageHeader);
+    }
+
     if (StringUtils.isNotEmpty(messageContent)) {
       messageContent = messageContent.replace("\n", MESSAGEML_LINEBREAK);
+      messageContent = ParserUtils.markupLinks(messageContent);
       ((ObjectNode) actionNode).put(MESSAGE_CONTENT, messageContent);
     }
   }
