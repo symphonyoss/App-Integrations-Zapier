@@ -6,7 +6,8 @@
       "type": "com.symphony.integration.zapier.event.message",
       "version": "1.0",
       "header": "New Trello Card Created",
-      "body": "<b>Card Name:</b> Card added for symphony innovate<br/><b>Card Link:</b> <a href=\"https://trello.com/c/8Md51YdW/15-card-added-for-symphony-innovate\">https://trello.com/c/8Md51YdW/15-card-added-for-symphony-innovate</a>"
+      "body": "<b>Card Name:</b> Card added for symphony innovate<br/><b>Card Link:</b> <a href=\"https://trello.com/c/8Md51YdW/15-card-added-for-symphony-innovate\">https://trello.com/c/8Md51YdW/15-card-added-for-symphony-innovate</a>",
+      "icon":"http://test.symphony.com/apps/zapier/img/icon.png"
     }
   }
 }

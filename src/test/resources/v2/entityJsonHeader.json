@@ -5,7 +5,8 @@
     "message" : {
       "type": "com.symphony.integration.zapier.event.message",
       "version": "1.0",
-      "header": "New Trello Card Created"
+      "header": "New Trello Card Created",
+      "icon":"http://test.symphony.com/apps/zapier/img/icon.png"
     }
   }
 }

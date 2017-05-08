@@ -1,6 +1,6 @@
 <messageML>
-    <div class="entity">
-        <card class="barStyle">
+    <div class="entity" data-entity-id="zapierPostMessage">
+        <card class="barStyle" iconSrc="${entity['zapierPostMessage'].message.icon}">
             <#if (entity['zapierPostMessage'].message.header)??>
                 <header>
                     <span>${entity['zapierPostMessage'].message.header}</span>
@@ -8,10 +8,8 @@
             </#if>
             <#if (entity['zapierPostMessage'].message.body)??>
                 <body>
-                    <div class="entity" data-entity-id="zapierPostMessage">
-                        <div class="labelBackground badge">
-                            <span>${entity['zapierPostMessage'].message.body}</span>
-                        </div>
+                    <div class="labelBackground badge">
+                        <span>${entity['zapierPostMessage'].message.body}</span>
                     </div>
                 </body>
             </#if>

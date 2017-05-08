@@ -19,6 +19,8 @@ package org.symphonyoss.integration.webhook.zapier.parser.v2;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.mockito.Mockito.doReturn;
+import static org.symphonyoss.integration.webhook.zapier.ZapierEntityConstants.INTEGRATION_NAME;
 import static org.symphonyoss.integration.webhook.zapier.ZapierEventConstants.POST_MESSAGE;
 import static org.symphonyoss.integration.webhook.zapier.ZapierEventConstants.ZAPIER_EVENT_TYPE_HEADER;
 
@@ -29,9 +31,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.symphonyoss.integration.json.JsonUtils;
 import org.symphonyoss.integration.model.message.Message;
+import org.symphonyoss.integration.model.yaml.IntegrationProperties;
 import org.symphonyoss.integration.webhook.WebHookPayload;
 import org.symphonyoss.integration.webhook.exception.WebHookParseException;
 import org.symphonyoss.integration.webhook.zapier.parser.ZapierParserException;
@@ -50,6 +54,9 @@ import java.util.Map;
 @RunWith(MockitoJUnitRunner.class)
 public class V2ZapierPostMessageParserTest {
 
+  @Mock
+  private IntegrationProperties properties;
+
   @InjectMocks
   private V2ZapierPostMessageParser parser;
 
@@ -63,6 +70,8 @@ public class V2ZapierPostMessageParserTest {
     headers.put(ZAPIER_EVENT_TYPE_HEADER, "post_message");
 
     this.expectedMessageML = readFile("templates/templatePostMessage.xml") + '\n';
+
+    doReturn("http://test.symphony.com/apps/zapier").when(properties).getApplicationUrl(INTEGRATION_NAME);
   }
 
   private String readFile(String fileName) throws IOException {

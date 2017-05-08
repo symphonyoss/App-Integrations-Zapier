@@ -2,16 +2,20 @@ package org.symphonyoss.integration.webhook.zapier.parser.v2;
 
 import static org.symphonyoss.integration.parser.ParserUtils.MESSAGEML_LINEBREAK;
 import static org.symphonyoss.integration.webhook.zapier.ZapierEntityConstants.ACTION_FIELDS;
+import static org.symphonyoss.integration.webhook.zapier.ZapierEntityConstants.INTEGRATION_NAME;
 import static org.symphonyoss.integration.webhook.zapier.ZapierEntityConstants.MESSAGE_CONTENT;
 import static org.symphonyoss.integration.webhook.zapier.ZapierEntityConstants.MESSAGE_HEADER;
+import static org.symphonyoss.integration.webhook.zapier.ZapierEntityConstants.MESSAGE_ICON_URL;
 import static org.symphonyoss.integration.webhook.zapier.ZapierEventConstants.POST_MESSAGE;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.symphonyoss.integration.json.JsonUtils;
 import org.symphonyoss.integration.model.message.Message;
+import org.symphonyoss.integration.model.yaml.IntegrationProperties;
 import org.symphonyoss.integration.parser.ParserUtils;
 import org.symphonyoss.integration.webhook.WebHookPayload;
 import org.symphonyoss.integration.webhook.exception.WebHookParseException;
@@ -33,6 +37,13 @@ public class V2ZapierPostMessageParser extends MetadataParser implements WebHook
   private static final String TEMPLATE_FILE = "templatePostMessage.xml";
 
   private static final String METADATA_FILE = "metadataPostMessage.xml";
+
+  private static final String IMAGE_DIRECTORY = "img";
+
+  private static final String DEFAULT_ICON_IMAGE = "icon.png";
+
+  @Autowired
+  private IntegrationProperties properties;
 
   /**
    * Returns the Zapier events handled by this parser.
@@ -81,6 +92,7 @@ public class V2ZapierPostMessageParser extends MetadataParser implements WebHook
 
     String messageHeader = actionNode.path(MESSAGE_HEADER).asText(StringUtils.EMPTY);
     String messageContent = actionNode.path(MESSAGE_CONTENT).asText(StringUtils.EMPTY);
+    String messageIcon = actionNode.path(MESSAGE_ICON_URL).asText(StringUtils.EMPTY);
 
     if ((StringUtils.isEmpty(messageHeader)) && (StringUtils.isEmpty(messageContent))) {
       String errorMessage = String.format("Fields {} and {} are empty.", MESSAGE_HEADER, MESSAGE_CONTENT);
@@ -96,6 +108,12 @@ public class V2ZapierPostMessageParser extends MetadataParser implements WebHook
       messageContent = messageContent.replace("\n", MESSAGEML_LINEBREAK);
       messageContent = ParserUtils.markupLinks(messageContent);
       ((ObjectNode) actionNode).put(MESSAGE_CONTENT, messageContent);
+    }
+
+    if (StringUtils.isEmpty(messageIcon)) {
+      messageIcon = String.format("%s/%s/%s", properties.getApplicationUrl(INTEGRATION_NAME),
+          IMAGE_DIRECTORY, DEFAULT_ICON_IMAGE);
+      ((ObjectNode) actionNode).put(MESSAGE_ICON_URL, messageIcon);
     }
   }
 
