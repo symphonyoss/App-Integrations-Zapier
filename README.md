@@ -113,16 +113,14 @@ Following an example:
 
 ```xml
 <messageML>
-    <div class="entity">
-        <card class="barStyle">
+    <div class="entity" data-entity-id="zapierPostMessage">
+        <card class="barStyle" iconSrc="${entity['zapierPostMessage'].message.icon}">
             <header>
                 <span>${entity['zapierPostMessage'].message.header}</span>
             </header>
             <body>
-                <div class="entity" data-entity-id="zapierPostMessage">
-                    <div class="labelBackground badge">
-                        <span>${entity['zapierPostMessage'].message.body}</span>
-                    </div>
+                <div class="labelBackground badge">
+                    <span>${entity['zapierPostMessage'].message.body}</span>
                 </div>
             </body>
         </card>
@@ -135,8 +133,13 @@ Following an example:
 	"zapierPostMessage": {
 		"type": "com.symphony.integration.zapier.event.v2.postMessage",
 		"version": "1.0",
-		"header": "Test Message Header: Trello card Test Trello created",
-		"body": "Test Message Body:<br/>* Card Test Trello have just been created",
+		"message" : {
+		    "type": "com.symphony.integration.zapier.event.message",
+		    "version": "1.0",
+		    "header": "Test Message Header: Trello card Test Trello created",
+		    "body": "Test Message Body:<br/>* Card Test Trello have just been created",
+		    "icon": "http://icon.com/icon"
+		}
 	}
 }
 ```

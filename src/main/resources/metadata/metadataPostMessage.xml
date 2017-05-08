@@ -4,7 +4,7 @@
     <object id="message" type="com.symphony.integration.zapier.event.message" version="1.0">
         <field key="header" value="action_fields.message_header" />
         <field key="body" value="action_fields.message_content" />
-        <field key="icon" value="action_fields.message_icon" />
+        <field key="icon" value="action_fields.message_icon" blank="true" />
     </object>
 
 </metadata>
