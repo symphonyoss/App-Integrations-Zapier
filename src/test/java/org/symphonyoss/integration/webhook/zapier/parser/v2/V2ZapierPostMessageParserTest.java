@@ -70,8 +70,6 @@ public class V2ZapierPostMessageParserTest {
     headers.put(ZAPIER_EVENT_TYPE_HEADER, "post_message");
 
     this.expectedMessageML = readFile("templates/templatePostMessage.xml") + '\n';
-
-    doReturn("http://test.symphony.com/apps/zapier").when(properties).getApplicationUrl(INTEGRATION_NAME);
   }
 
   private String readFile(String fileName) throws IOException {
@@ -129,6 +127,8 @@ public class V2ZapierPostMessageParserTest {
   @Test
   public void testPostMessageHeaderContent() throws IOException, WebHookParseException {
     parser.init();
+
+    doReturn("http://test.symphony.com/apps/zapier").when(properties).getApplicationUrl(INTEGRATION_NAME);
 
     String body = readJsonFile("zapierHeaderContent.json");
     String expectedEntityJson = readJsonFile("v2/entityJsonHeaderContent.json");

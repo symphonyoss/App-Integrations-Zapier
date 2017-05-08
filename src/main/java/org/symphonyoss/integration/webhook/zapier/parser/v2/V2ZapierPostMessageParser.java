@@ -111,9 +111,12 @@ public class V2ZapierPostMessageParser extends MetadataParser implements WebHook
     }
 
     if (StringUtils.isEmpty(messageIcon)) {
-      messageIcon = String.format("%s/%s/%s", properties.getApplicationUrl(INTEGRATION_NAME),
-          IMAGE_DIRECTORY, DEFAULT_ICON_IMAGE);
-      ((ObjectNode) actionNode).put(MESSAGE_ICON_URL, messageIcon);
+      String applicationUrl = properties.getApplicationUrl(INTEGRATION_NAME);
+
+      if (StringUtils.isNotEmpty(applicationUrl)) {
+        messageIcon = String.format("%s/%s/%s", applicationUrl, IMAGE_DIRECTORY, DEFAULT_ICON_IMAGE);
+        ((ObjectNode) actionNode).put(MESSAGE_ICON_URL, messageIcon);
+      }
     }
   }
 
