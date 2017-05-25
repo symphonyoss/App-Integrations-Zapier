@@ -160,10 +160,14 @@ Zapier WebHook Integration is compatible with Apache Maven 3.0.5 or above. If yo
 
 To start from scratch, do the following:
 
-1. Build the _App-Integrations-Zapier_ dependencies (so you have them in your Maven local repository):
-> [_App-Integrations-Commons_](https://github.com/symphonyoss/App-Integrations-Commons)
+1. Build the _App-Integrations-Zapier_ dependencies in this order (so you have them in your Maven local repository):
+> 1. [_App-Integrations-Commons_](https://github.com/symphonyoss/App-Integrations-Commons)
+> 2. [_App-Integrations-Universal_](https://github.com/symphonyoss/App-Integrations-Universal)
+> 3. [_App-Integrations-Zapier_](https://github.com/symphonyoss/App-Integrations-Zapier) *note: if you are building another integration, simply substitute Zapier for your integration, such as 
+"> 4. [_App-Integrations-Github_](https://github.com/symphonyoss/App-Integrations-Github)"
+
 2. Clone the source repository using Git: `git clone git@github.com:symphonyoss/App-Integrations-Zapier.git`
-3. cd into _App-Integrations-Zapier_
+3. cd into _App-Integrations-Zapier_  (or your equivalent folder)
 4. Build using maven: `mvn clean install`
 
 ## Run locally
@@ -177,7 +181,7 @@ open env.sh
 Make sure that
 - Paths and passwords are correct
 - You can reach all Symphony Pod endpoints
-- Service accounts exists and cert CNs match with account's usernames. **_Note: The team is working on a integration-provisioning module that will automate this process; until further notice, please contact Symphony Support to get your Symphony integration deployed on your pod, as the pod will need an exact match of service account name, certs and app name in the pod for your app to be visible in your pod and usable._**
+- Service accounts exists and cert CNs match with account's usernames. **Note: The team is working on a integration-provisioning module that will automate this process; until further notice, please contact Symphony Support to get your Symphony integration deployed on your pod, as the pod will need an exact match of service account name, certs and app name in the pod for your app to be visible in your pod and usable. You will need to provide the (?)**
 - `./env.sh`, `./application.yaml` and `./certs/` are ignored by Git and don't end up in any code repository
 
 2. Run the integrations
