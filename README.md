@@ -164,7 +164,7 @@ To start from scratch, do the following:
 > 1. [_App-Integrations-Commons_](https://github.com/symphonyoss/App-Integrations-Commons)
 > 2. [_App-Integrations-Universal_](https://github.com/symphonyoss/App-Integrations-Universal)
 > 3. [_App-Integrations-Zapier_](https://github.com/symphonyoss/App-Integrations-Zapier) *note: if you are building another integration, simply substitute Zapier for your integration, such as 
-"> 4. [_App-Integrations-Github_](https://github.com/symphonyoss/App-Integrations-Github)"
+> 4. [_App-Integrations-Github_](https://github.com/symphonyoss/App-Integrations-Github)
 
 2. Clone the source repository using Git: `git clone git@github.com:symphonyoss/App-Integrations-Zapier.git`
 3. cd into _App-Integrations-Zapier_  (or your equivalent folder)
