@@ -1,5 +1,24 @@
 [![Symphony Software Foundation - Incubating](https://cdn.rawgit.com/symphonyoss/contrib-toolbox/master/images/ssf-badge-incubating.svg)](https://symphonyoss.atlassian.net/wiki/display/FM/Incubating) [![Build Status](https://travis-ci.org/symphonyoss/App-Integrations-Zapier.svg?branch=dev)](https://travis-ci.org/symphonyoss/App-Integrations-Zapier) [![Dependencies](https://www.versioneye.com/user/projects/58d049f9dcaf9e0048399c74/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/58d049f9dcaf9e0048399c74)
 
+*This readme contains information that both covers Zapier's specific webhook configuration and the rendering pipeline as well as serving as the development guide for Symphony Integrations. It includes information on: Webhook Integration architecture, development environment, application bootstraping and building.
+
+# Symphony Integration framework
+An integration is a collection of several items that are linked together:
+  * Service account
+  * Parser
+  * Configurator app
+  * Certificate 
+
+Integrations are configured by end-users in the configurator app. When the end-user configures the integration, by choosing where they want to receive notifications from, a webhook URL is generated. This URL is then placed into a 3rd-party system or in-house system, so that said system can emit a payload to the webhook. 
+
+The integration is listening to that webhook. When the integration receives a payload from the emitting system, it then parses that payload. 
+
+The payload is transformed from the original data structure, into a new data structure - messageML & EntityJSON.
+
+MessageML determines what the message will look like and render within Symphony, and serves as a mapping for the data to render correctly.
+
+EntityJSON is the data structure that the incoming message is transformed into. 
+
 # Zapier WebHook Integration
 The Zapier WebHook Integration will allow you to add an ecosystem of 600+ apps to the Symphony platform. Zapier sends notifications and content to Symphony IMs or rooms from your favorite applications including GMail, Office 365, Trello, HubSpot, Twitter, LinkedIn, and hundreds of other productivity apps.
  
