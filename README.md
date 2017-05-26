@@ -1,6 +1,6 @@
 [![Symphony Software Foundation - Incubating](https://cdn.rawgit.com/symphonyoss/contrib-toolbox/master/images/ssf-badge-incubating.svg)](https://symphonyoss.atlassian.net/wiki/display/FM/Incubating) [![Build Status](https://travis-ci.org/symphonyoss/App-Integrations-Zapier.svg?branch=dev)](https://travis-ci.org/symphonyoss/App-Integrations-Zapier) [![Dependencies](https://www.versioneye.com/user/projects/58d049f9dcaf9e0048399c74/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/58d049f9dcaf9e0048399c74)
 
-*This readme contains information that both covers Zapier's specific webhook configuration. To see the development guide for Symphony Integrations, please go to to the quick start guide (link coming soon). 
+*This readme contains information that both covers Zapier's specific webhook configuration. To see the development guide for Symphony Integrations, please go to to the quick start guide (link coming soon).* 
 
 # Zapier WebHook Integration
 The Zapier WebHook Integration will allow you to add an ecosystem of 600+ apps to the Symphony platform. Zapier sends notifications and content to Symphony IMs or rooms from your favorite applications including GMail, Office 365, Trello, HubSpot, Twitter, LinkedIn, and hundreds of other productivity apps.
