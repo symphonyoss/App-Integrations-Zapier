@@ -15,6 +15,40 @@ The quickstart guide covers:
 * Overview about MessageML v2
 
 ## Integration Bridge architecture
+Integration Bridge is responsible for managing active integrations and provides key services to allow third party services the ability to post messages into a configurable set of streams
+
+The key services provided to the registered integrations are:
+
+* Authentication proxy - each integration should be configured with credentials, but the implementation never needs to
+ deal with them. Once bootstrapped, the integration can use integration bridge services as if it's unauthenticated. The bridge itself proxies those services to the cloud with the proper authentication.
+* Send messages to a stream
+* Read and write configuration information to the cloud configuration services
+* Read user information to the cloud user services
+* Health check
+
+### Definitions
+
+A list of definitions also serves to introduce the main components of the integrations system.
+
+* **Integration** - An interface to be implemented by an specific integration. These are bootstrapped into the
+Integration Bridge via config file. They have a lifecycle to be managed by the Integration Bridge.
+
+* **Webhook Integration** - A specific type of integration which can be configured to listen for specific webhook events
+ from external services. This is also a superclass of particular implementations of the webhook integrations which support specific services.
+ For instance, a Zapier webhook integration would extend this, and provide logic to translate the event information
+ into a particular message to the streams.
+
+* **Integration Config API** - Cloud API responsible to manage the webhook instances configured by the user.
+
+* **Configurator** - Configurator - An application (listed in the Symphony App Store) which allows a user to
+configure instances of an integration type. Using Zapier as an example, an user would have the configuration app
+available in the app store, and once opened would be able to configure a new instance of the Zapier webhook
+integration, get the URL for the JIRA cloud services to ping with webhook events, configure streams which the
+integration instance should post to, as well as the name of the instance. The configurator app can also be used to
+manage existing instances.
+
+### System overview
+
 TODO
 
 ## Webhook Integration architecture
