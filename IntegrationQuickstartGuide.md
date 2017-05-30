@@ -40,7 +40,7 @@ Integration Bridge via config file. They have a lifecycle to be managed by the I
 
 * **Integration Config API** - Cloud API responsible to manage the webhook instances configured by the user.
 
-* **Configurator** - Configurator - An application (listed in the Symphony App Store) which allows a user to
+* **Configurator** - An application (listed in the Symphony App Store) which allows a user to
 configure instances of an integration type. Using Zapier as an example, an user would have the configuration app
 available in the app store, and once opened would be able to configure a new instance of the Zapier webhook
 integration, get the URL for the JIRA cloud services to ping with webhook events, configure streams which the
@@ -48,8 +48,11 @@ integration instance should post to, as well as the name of the instance. The co
 manage existing instances.
 
 ### System overview
+Following below how the message sent by third party services flows through the system overall.
 
-TODO
+![System Overview](src/docs/quickstart/Integration_Bridge_Overview.png)
+
+The message sent by the third party service is processed by the integration parser and translated to MessageML. After that, the Integration Bridge posts the result MessageML through the Agent Message API's.
 
 ## Webhook Integration architecture
 TODO
