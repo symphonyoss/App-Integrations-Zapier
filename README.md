@@ -1,4 +1,7 @@
-[![Symphony Software Foundation - Incubating](https://cdn.rawgit.com/symphonyoss/contrib-toolbox/master/images/ssf-badge-incubating.svg)](https://symphonyoss.atlassian.net/wiki/display/FM/Incubating) [![Build Status](https://travis-ci.org/symphonyoss/App-Integrations-Zapier.svg?branch=dev)](https://travis-ci.org/symphonyoss/App-Integrations-Zapier) [![Dependencies](https://www.versioneye.com/user/projects/58d049f9dcaf9e0048399c74/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/58d049f9dcaf9e0048399c74)
+[![Symphony Software Foundation - Incubating](https://cdn.rawgit.com/symphonyoss/contrib-toolbox/master/images/ssf-badge-incubating.svg)](https://symphonyoss.atlassian.net/wiki/display/FM/Incubating)
+[![Build Status](https://travis-ci.org/symphonyoss/App-Integrations-Zapier.svg?branch=dev)](https://travis-ci.org/symphonyoss/App-Integrations-Zapier)
+[![Dependencies](https://www.versioneye.com/user/projects/58d049f9dcaf9e0048399c74/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/58d049f9dcaf9e0048399c74)
+[![Validation Status](https://scan.coverity.com/projects/12828/badge.svg?flat=1)](https://scan.coverity.com/projects/symphonyoss-app-integrations-zapier)
 
 *This readme contains information that both covers Zapier's specific webhook configuration. To see the development guide for Symphony Integrations, please go to to the [quick start guide](IntegrationQuickstartGuide.md).*
 
