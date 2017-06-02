@@ -20,18 +20,32 @@
 # under the License.
 #
 
-sudo: required
-dist: trusty
-language: node_js
-node_js:
-  - "6.10"
+language: java
+
+before_install:
+  - "curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.30.2/install.sh | bash"
+  - "nvm install 6.10"
+  - "nvm use 6.10"
+  - "npm update -g npm"
+
+install: true
+
+jdk:
+  - oraclejdk8
+
+env:
+  global:
+    - secure: "MJNIjzy4S4XucRHdlYcgQyNDaYuZiIyYbg4MECea2Wfmt2o40IgvKDKL2klsOauZ8QUKC7WBcb79MtVsDkstnrVx6ZQ52a3Dq2qWiqLlU5Quxzw2jzWfoPJBA9Et+pTvChx1uQ60QSkd2NRg0Q8Ft+a/nyEWLJs/rJrFAR9hCgBUCp1fudu6wB1X+Mug6x2k/PjXPW4uBuI5FNoY8jHLjcpRphIIdWQWJDhXENqgtIiK4BMTC67yTKtoziGFGDYPkIXoL5M7zwJs1WM0mPzrumNA3gWJm9gouLg4Khcgs58Mr0X3J22E5OjzxwXWAn4dCAnw0Hmny/WmQnZyEpIoMCDrBjyTHb2NGJ/EMEmpOp6V3NBTngjTFNUIVxLgJOCJ4wX7hDDJinRjkQlJXj3wnv+0GZcN8CTal+DQC+m4pH2jLs03k+HO/y7NVb63Qy4LJicHFbWjB9a/muH2YsPjS6O7nw7B/scz1nf0xFBzgFzOqeYnACVBgm8kGITDGWHxZXjFcBb5EApMbubKUq050r2EtI1wpRV+0W2BcTVqoDDqZ+4EHFuHOY10LiQHJKuO/pFVaDz48bPGsmzx0Hc2W+zfd8wgSHzmd6gPw+xj0y+uMVzwWtETBJ6XugbsFGLaz0UL9QJRukeZhlNMVRtu3JzxMxQYghcVmxQwBSJV6mY="
 
 addons:
-  apt:
-    packages:
-      - openjdk-8-jdk
-      - maven
-      - rpm
+  coverity_scan:
+    project:
+      name: "symphonyoss/App-Integrations-Zapier"
+      description: "Build submitted via Travis CI"
+    notification_email: "integrations-team@symphony.com"
+    build_command_prepend: "mvn clean"
+    build_command:   "mvn -Denv=dev -DsymphonySkipUnitTests=true install"
+    branch_pattern: "dev"
 
 script:
 - "if [[ \"$TRAVIS_PULL_REQUEST\" = \"false\" && $TRAVIS_BRANCH =~ dev ]]; then mvn clean deploy -Pversioneye -DtransitiveDependencies=true --settings settings.xml ; fi"
