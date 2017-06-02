@@ -42,10 +42,10 @@ addons:
     project:
       name: "symphonyoss/App-Integrations-Zapier"
       description: "Build submitted via Travis CI"
-    notification_email: $COVERITY_NOTIFICATION_EMAIL
+    notification_email: "integrations-team@symphony.com"
     build_command_prepend: "mvn clean"
     build_command:   "mvn -Denv=dev -DsymphonySkipUnitTests=true install"
-    branch_pattern: $COVERITY_BRANCH_PATTERN
+    branch_pattern: "dev"
 
 script:
 - "if [[ \"$TRAVIS_PULL_REQUEST\" = \"false\" && $TRAVIS_BRANCH =~ dev ]]; then mvn clean deploy -Pversioneye -DtransitiveDependencies=true --settings settings.xml ; fi"
