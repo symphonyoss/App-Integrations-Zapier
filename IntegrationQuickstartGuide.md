@@ -1,25 +1,67 @@
-This is the Integration quickstart guide...work to be continued: 
+# Integration Quickstart Guide
+
+This document aims to allow developers to create their first integration using the Integration Bridge.
 
 The quickstart guide covers: 
 
-* Webhook Integration architecture & > IBridge architecture
-* Development environment
-* Application bootstraping and building
-* How to run one specific integration, using Intellij or via Maven/CLI,
-* How to build a new parser, and validate it using PostMan
+* Integration Bridge architecture
+* Webhook Integration architecture
+* Build instructions for the Java developer, using Intellij or Maven
+* Application healthcheck
+* YAML configuration file
+* How to build a new integration, and validate it using PostMan
+* How to build a new Configurator APP
 * How to inspect incoming payloads
-* How to use the healthcheck
-* How the YAML file works
-* How to build a new Configurator APP. 
 * Overview about MessageML v2
 
-## General Integration Workflow
-As of providing the mentioned structure above, we'll detail here what is the general workflow when the core receives a message from an integrated app, let's say GitHub, for this example:
+## Integration Bridge architecture
+Integration Bridge is responsible for managing active integrations and provides key services to allow third party services the ability to post messages into a configurable set of streams
+
+The key services provided to the registered integrations are:
+
+* Authentication proxy - each integration should be configured with credentials, but the implementation never needs to
+ deal with them. Once bootstrapped, the integration can use integration bridge services as if it's unauthenticated. The bridge itself proxies those services to the cloud with the proper authentication.
+* Send messages to a stream
+* Read and write configuration information to the cloud configuration services
+* Read user information to the cloud user services
+* Health check
+
+### Definitions
+
+A list of definitions also serves to introduce the main components of the integrations system.
+
+* **Integration** - An interface to be implemented by an specific integration. These are bootstrapped into the
+Integration Bridge via config file. They have a lifecycle to be managed by the Integration Bridge.
+
+* **Webhook Integration** - A specific type of integration which can be configured to listen for specific webhook events
+ from external services. This is also a superclass of particular implementations of the webhook integrations which support specific services.
+ For instance, a Zapier webhook integration would extend this, and provide logic to translate the event information
+ into a particular message to the streams.
+
+* **Integration Config API** - Cloud API responsible to manage the webhook instances configured by the user.
+
+* **Configurator** - An application (listed in the Symphony App Store) which allows a user to
+configure instances of an integration type. Using Zapier as an example, an user would have the configuration app
+available in the app store, and once opened would be able to configure a new instance of the Zapier webhook
+integration, get the URL for the JIRA cloud services to ping with webhook events, configure streams which the
+integration instance should post to, as well as the name of the instance. The configurator app can also be used to
+manage existing instances.
+
+### System overview
+Following below how the message sent by third party services flows through the system overall.
+
+![System Overview](src/docs/quickstart/Integration_Bridge_Overview.png)
+
+The message sent by the third party service is processed by the integration parser and translated to MessageML. After that, the Integration Bridge posts the result MessageML through the Agent Message API's.
+
+## Webhook Integration architecture
+In this section we'll detail what is the general workflow when the core receives a message from an integrated
+application, let's say Zapier, for this example:
 
 > 1. Expose an endpoint where it will receive the message.
 > 2. Identify where this message is coming from through the URL parameters it received (configurationId and instanceId)
 > 3. If the message is trying to reach a valid integration and a configured instance, it will delegate the message to the specific integration code implemented separately across the other Integration repositories.
-> 4. The integration GitHub logic will now determine which event it is dealing with through the received message header parameter, and based on this will determine which [parser](#parsers) it must use to treat the message properly.
+> 4. The integration Zapier logic will now determine which event it is dealing with through the received message header parameter, and based on this will determine which [parser](#parsers) it must use to treat the message properly.
 > 5. The parser will then convert the message to a [Message ML format](#the-message-ml-format), extracting the needed information from the payload received.
 > 6. The parsed message will return to the Integration Core and post the message to the Symphony platform
 
@@ -35,8 +77,8 @@ The most basic message one can send may be as simple as ``<messageML>simple mess
 
 These elements and attributes will be briefly detailed in the next topics as reference. The specific integration formats can be found in their separate repositories "Readme" files.
 
-## Entity (MessageMLv1.0)
-_**note: MessageMLv1.0 has been superseded by MessageMLv2.0. MessageMLv1.0 is still supported, however MessageMLv2.0 will allow you to create a rich render in a more seamlessly manner, with less steps and no front end code. Please see a JIRA ticket rendered using messageMLv2.0 here for as a complex example: https://symphonyoss.atlassian.net/wiki/display/WGFOS/Single+Jira+Ticket+-+Templated+PresentationML & see [Zapier](https://github.com/symphonyoss/App-Integrations-Zapier/tree/db-hackathon) as a simple example of a richly rendererd message._**
+### Entity (MessageMLv1.0)
+_**note: MessageMLv1.0 has been superseded by MessageMLv2.0. MessageMLv1.0 is still supported, however MessageMLv2.0 will allow you to create a rich render in a more seamlessly manner, with less steps and no front end code. Please see a JIRA ticket rendered using messageMLv2.0 here for as a complex example: https://symphonyoss.atlassian.net/wiki/display/WGFOS/Single+Jira+Ticket+-+Templated+PresentationML & see [Zapier](https://github.com/symphonyoss/App-Integrations-Zapier) as a simple example of a richly rendererd message._**
 
 An entity is a special element contained in a ``<messageML>``, it may also be nested within other entities as another element, and so on.
 
@@ -65,66 +107,43 @@ Here's an example of a valid MessageML, containing all of the mentioned above:
 </messageML>
 ```
 
-# Symphony Integration framework
-An integration is a collection of several items that are linked together:
-  * Service account
-  * Parser
-  * Configurator app
-  * Certificate 
+## Build instructions for the Java developer
 
-Integrations are configured by end-users in the configurator app. When the end-user configures the integration, by choosing where they want to receive notifications from, a webhook URL is generated. This URL is then placed into a 3rd-party system or in-house system, so that said system can emit a payload to the webhook. 
-
-The integration is listening to that webhook. When the integration receives a payload from the emitting system, it then parses that payload. 
-
-The payload is transformed from the original data structure, into a new data structure - messageML & EntityJSON.
-
-MessageML determines what the message will look like and render within Symphony, and serves as a mapping for the data to render correctly.
-
-EntityJSON is the data structure that the incoming message is transformed into. 
-
-# Build instructions for the Java developer
-
-## What you’ll build
+### What you’ll build
 You’ll build an integration module to be used with the [Integration Bridge](https://github.com/symphonyoss/App-Integrations-Core).
 
-If you develop a new integration, to get it up and running you'll also need to add it to the core project's web pom file.
-
-## What you’ll need
+### What you’ll need
 * JDK 1.8
 * Maven 3.0.5+
 * Node 6.10
 * Gulp (globally installed)
 * Webpack (globally installed)
 
-## Build with maven
-Integration Core is compatible with Apache Maven 3.0.5 or above. If you don’t already have Maven installed you can follow the instructions at maven.apache.org.
+### Build with maven
+Integration Bridge is compatible with Apache Maven 3.0.5 or above. If you don’t already have Maven installed you can follow the instructions at [Maven Website](https://maven.apache.org).
 
 To start from scratch, do the following:
 
-1. Build the _App-Integrations-Zapier dependencies, on this order (so you have them in your Maven local repository):
+1. Clone the source repository using Git: `git clone git@github.com:symphonyoss/App-Integrations-Zapier.git`
+2. cd into App-Integrations-Zapier
+3. Build using maven: `mvn clean install`
 
-> 1. [_App-Integrations-Commons_](https://github.com/symphonyoss/App-Integrations-Commons)
-> 2. [_App-Integrations-Universal_](https://github.com/symphonyoss/App-Integrations-Universal)
-> 3. [_App-Integrations-Github_](https://github.com/symphonyoss/App-Integrations-Github)
-> 4. [_App-Integrations-Jira_](https://github.com/symphonyoss/App-Integrations-Jira)
-> 5. [_App-Integrations-Salesforce_](https://github.com/symphonyoss/App-Integrations-Salesforce)
-> 6. [_App-Integrations-Trello_](https://github.com/symphonyoss/App-Integrations-Trello)
-> 7. [_App-Integrations-Zapier_](https://github.com/symphonyoss/App-Integrations-Zapier)
+### Run locally
 
-2. Clone the source repository using Git: `git clone git@github.com:symphonyoss/App-Integrations-Zapier.git`
-3. cd into _App-Integrations-Zapier
-4. Build using maven: `mvn clean install`
+1. Create the 'certs' directory and put your application certificate over there
+```
+mkdir certs
+cp $CERT_PATH/zapier.p12 certs/zapier.p12
+```
 
-## Run locally
-
-1. Define your certificate paths and passwords
+2. Define your certificate file, password, and API endpoints in the environment shell script.
 ```
 cp local-run/env.sh.sample env.sh
 open env.sh
 ```
 
 Make sure that
-- Paths and passwords are correct
+- Certificate filename and password are correct
 - You can reach all Symphony Pod endpoints
 - Service accounts exists and cert CNs match with account's usernames. **Note: The team is working on a integration-provisioning module that will automate this process; until further notice, please contact Symphony Support to get your Symphony integration deployed on your pod, as the pod will need an exact match of service account name, certs and app name in the pod for your app to be visible in your pod and usable. You will need to provide the (?)**
 - `./env.sh`, `./application.yaml` and `./certs/` are ignored by Git and don't end up in any code repository
@@ -153,9 +172,9 @@ ngrok http -subdomain=my.static.subdomain 8080
 
 Adjust your [bundle.json](src/main/webapp/bundle.json) located src/main/webapp/ with the URL you are exposing via ngrok, the configuration and bot id's, and the application context.
 
-**_Note: The team is working on a integration-provisioning module that will automate this process; until further notice, please contact Symphony Support to get your configuration and bot id's.
+**Note: The team is working on a integration-provisioning module that will automate this process; until further notice, please contact Symphony Support to get your configuration and bot id's.
 
-For the application context, you should always user app/<your app id> provided in the env.sh. That id should also match what you have on [application-zapier.yml](src/main/resources/application-zapier.yml)
+For the application context, it should match what you have on [application-zapier.yml](src/main/resources/application-zapier.yml)
 
 For instance, see apps/zapier present in the URL's for the controller.html and appstore-logo.png, as well as in the **context** query parameter for the controller:
 
@@ -176,7 +195,7 @@ For instance, see apps/zapier present in the URL's for the controller.html and a
 }
 ```
 
-Access the application icon on your browser to make sure it works and to accept any unsafe certificates (if necessary). In the above example, the URL to acces is https://6f3420e6.ngrok.io/img/appstore-logo.png).
+Access the application icon on your browser to make sure it works and to accept any unsafe certificates (if necessary). In the above example, the URL to acces is https://d74a790c.ngrok.io/img/appstore-logo.png).
 
 **Run your application again as indicated above, to get the new bundle.js information packaged.**
 
@@ -184,28 +203,92 @@ Launch the Symphony client on your browser, adding your bundle.js as path of the
 
 Access the Symphony Market on the browser, and you should be notified to allow unauthorized apps. That is your development app added through bundle.json. Accept the notification and you should see your application in the application list, with the name and description provided in the bundle.json.
 
+## Developing your own webhook configuration flow
 
-## Running with Intellij 
-Here are the initial steps to get your project configured to run using the Intellij IDEA IDE. The instructions bellow assume that you have cloned App-Integrations-Core under ``/workspace/App-Integrations-Core``. Adjust the indicated procedure according to your actual path.
+The application added to the Symphony Market is commonly referred to as the "Configurator Application", as it allows the user to configure the webhooks for a 3rd party integration.
 
-1. Import this project into your IDE as a ``maven`` project and be sure to choose JDK 1.8 to run it with.
-2. Import any other Integration projects the same way as above (like, let's say, App-Integrations-Github or App-Integrations-Commons), but those are not required.
-3. Copy [this file](docs/configuration/idea/Integration_Bridge.xml) to your App-Integrations-Core source folder under /workspace/App-Integrations-Core/.idea/runConfigurations (feel free to create the runConfigurations if you don't have it yet).
-4. Go to ``Run > Edit Configurations...`` and select check the one called "Integration Bridge".
-5. Check that the referenced folders do exist, they should all be pointing to ``/workspace/App-Integrations-Core/docs/configuration/boot/`` folders, to exemplify the structure you need.
-6. Obtain valid, PKCS#12 user certificates to your POD and copy those to ``/workspace/App-Integrations-Core/docs/configuration/boot/certs``, you'll need one for each integration.
-7. Configure valid addresses to connect the application to on the file [application.yaml](docs/configuration/boot/application.yaml)
-8. Copy the JAR files for each integration to ``/workspace/App-Integrations-Core/docs/configuration/boot/libs/`` (or create a link). The JAR files have been generated on the "Build with maven" section above. For instance, Github JAR ``/workspace/App-Integrations-Github/integration-github-0.10.0-SNAPSHOT.jar`` should be copied to ``/workspace/App-Integrations-Core/docs/configuration/boot/libs/integration-github-0.10.0-SNAPSHOT.jar`` (or linked). Copy or link all the integrations you want to run on Intellij.
-9. Run ``IntegrationBridgeApplication`` from the "Run" menu and start watching Intellij run output at the botton of your IDE, if everything works you should see last a message like this one:
+Zapier Configurator Application is based on the out-of-the-box flow provided by [App-Integrations-FE-Commons](https://github.com/symphonyoss/App-Integrations-FE-Commons), 
+which includes a complete set of views that allow users to manage the webhooks for an integration. Zapier Configurator App implementation involves the following files, and it is based on the [out-of-the-box-configurator sample](https://github.com/symphonyoss/App-Integrations-FE-Commons/tree/dev/samples/out-of-the-box-configurator):
 
-> INFO  [org.symphonyoss.integration.core.bootstrap.IntegrationBootstrapContext] (pool-5-thread-1) lMXpkb:d8Gma6:rinXAT INFO Integration salesforceWebHookIntegration bootstrapped successfully
-> INFO  [org.symphonyoss.integration.core.bootstrap.IntegrationBootstrapContext] (pool-5-thread-5) lMXpkb:d8Gma6:oOHPJ3 INFO Integration simpleWebHookIntegration bootstrapped successfully
-> INFO  [org.symphonyoss.integration.core.bootstrap.IntegrationBootstrapContext] (pool-5-thread-2) lMXpkb:d8Gma6:YNMo9n INFO Integration zapierWebHookIntegration bootstrapped successfully
-> INFO  [org.symphonyoss.integration.core.bootstrap.IntegrationBootstrapContext] (pool-5-thread-6) lMXpkb:d8Gma6:uAGbXe INFO Integration jiraWebHookIntegration bootstrapped successfully
-> INFO  [org.symphonyoss.integration.core.bootstrap.IntegrationBootstrapContext] (pool-5-thread-3) lMXpkb:d8Gma6:5NWnjN INFO Integration trelloWebHookIntegration bootstrapped successfully
-> INFO  [org.symphonyoss.integration.core.bootstrap.IntegrationBootstrapContext] (pool-5-thread-4) lMXpkb:d8Gma6:O9H1Te INFO Integration githubWebHookIntegration bootstrapped successfully
+- [.babelrc](.babelrc)
+- [.eslint](.eslint)
+- [package.json](package.json)
+- [webpack.config.js](webpack.config.js)
+- [webpack.config.prod.js](webpack.config.prod.js)
+- [src/main/webapp](src/main/webapp)
 
-The Intellij run configuration provided as a sample is equivalent to:
+It is also possible to customize the views and flows for your Configurator App. Check the [posting-location sample](https://github.com/symphonyoss/App-Integrations-FE-Commons/tree/dev/samples/posting-location-sample)
+for an example on how to do that.
+
+### Running with Intellij
+TODO
+
+## Application healthcheck
+To validate if your application were bootstrapped successfully you can reach on the application health check using
+the URL http://localhost:8080/integration/health
+
+The application health will indicate the connectivity and compatibility for each service you want to communicate like POD, Key Manager, and Agent. You also could check the application health, the configurator URL's, application flags, and latest posted message timestamp.
+
+This is the result from healthcheck:
+
 ```
-java -Dloader.path=/workspace/App-Integrations-Core/docs/configuration/boot/libs/ -Dlog4j2.outputAllToConsole=true -Dlogs.basedir=/workspace/App-Integrations-Core/docs/configuration/boot/logs -Dfile.encoding=UTF-8 -jar /workspace/App-Integrations-Core/integration-web/target/integration.jar --spring.config.location=/workspace/App-Integrations-Core/docs/configuration/boot/ --server.tomcat.basedir=/workspace/App-Integrations-Core/docs/configuration/boot/tomcat
+{
+  "status": "UP",
+  "message": "Success",
+  "version": "0.13.0-SNAPSHOT",
+  "services": {
+    "Agent": {
+      "connectivity": "UP",
+      "currentVersion": "1.46.0",
+      "minVersion": "1.44.0",
+      "compatibility": "OK"
+    },
+    "POD": {
+      "connectivity": "UP",
+      "currentVersion": "1.46.0",
+      "minVersion": "1.44.0",
+      "compatibility": "OK"
+    },
+    "Key Manager": {
+      "connectivity": "UP",
+      "currentVersion": "1.46.0",
+      "minVersion": "1.44.0",
+      "compatibility": "OK"
+    }
+  },
+  "applications": [
+    {
+      "name": "zapier",
+      "version": "0.13.0-SNAPSHOT",
+      "status": "ACTIVE",
+      "message": "Success",
+      "configurator": {
+        "loadUrl": "https://d74a790c.ngrok.io/apps/zapier/controller.html",
+        "iconUrl": "https://d74a790c.ngrok.io/apps/zapier/img/appstore-logo.png"
+      },
+      "flags": {
+        "parser_installed": "OK",
+        "configurator_installed": "OK",
+        "certificate_installed": "OK",
+        "user_authenticated": "OK"
+      },
+      "latestPostTimestamp": "2017-05-29T16:30:44Z-0300"
+    }
+  ]
+}
 ```
+
+## YAML Configuration File
+TODO
+
+## Build a new integration
+TODO
+
+## Build the Configurator APP
+TODO
+
+## Inspect incoming payloads
+TODO
+
+## MessageML v2
+TODO
