@@ -203,6 +203,23 @@ Launch the Symphony client on your browser, adding your bundle.js as path of the
 
 Access the Symphony Market on the browser, and you should be notified to allow unauthorized apps. That is your development app added through bundle.json. Accept the notification and you should see your application in the application list, with the name and description provided in the bundle.json.
 
+## Developing your own webhook configuration flow
+
+The application added to the Symphony Market is commonly referred to as the "Configurator Application", as it allows the user to configure the webhooks for a 3rd party integration.
+
+Zapier Configurator Application is based on the out-of-the-box flow provided by [App-Integrations-FE-Commons](https://github.com/symphonyoss/App-Integrations-FE-Commons), 
+which includes a complete set of views that allow users to manage the webhooks for an integration. Zapier Configurator App implementation involves the following files, and it is based on the [out-of-the-box-configurator sample](https://github.com/symphonyoss/App-Integrations-FE-Commons/tree/dev/samples/out-of-the-box-configurator):
+
+- [.babelrc](.babelrc)
+- [.eslint](.eslint)
+- [package.json](package.json)
+- [webpack.config.js](webpack.config.js)
+- [webpack.config.prod.js](webpack.config.prod.js)
+- [src/main/webapp](src/main/webapp)
+
+It is also possible to customize the views and flows for your Configurator App. Check the [posting-location sample](https://github.com/symphonyoss/App-Integrations-FE-Commons/tree/dev/samples/posting-location-sample)
+for an example on how to do that.
+
 ### Running with Intellij
 TODO
 
