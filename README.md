@@ -123,3 +123,6 @@ This is the EntityJSON that the Zapier integration generates after parsing, whic
 ##### Message rendered on Symphony
 
 ![Sample Action](src/docs/samples/sample_trello_action_rendered.png)
+
+### Messages color mapping
+For all Zapier notifications, the flair color (vertical bar on the left) will be **gray**. This can change in future implementations.
