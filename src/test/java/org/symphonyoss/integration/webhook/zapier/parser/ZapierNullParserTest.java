@@ -21,6 +21,8 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.List;
 
@@ -28,6 +30,7 @@ import java.util.List;
  * Unit test for {@link ZapierNullParser}
  * Created by rsanchez on 05/04/17.
  */
+@RunWith(MockitoJUnitRunner.class)
 public class ZapierNullParserTest {
 
   private ZapierNullParser parser = new ZapierNullParser();
