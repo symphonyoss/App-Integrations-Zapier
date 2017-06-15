@@ -173,6 +173,6 @@ public class ZapierWebHookIntegrationTest {
     List<MediaType> supportedContentTypes = new ArrayList<>();
     supportedContentTypes.add(MediaType.WILDCARD_TYPE);
 
-    Assert.assertEquals(zapierWebHookIntegration.getSupportedContentTypes(), supportedContentTypes);
+    Assert.assertEquals(supportedContentTypes, zapierWebHookIntegration.getSupportedContentTypes());
   }
 }

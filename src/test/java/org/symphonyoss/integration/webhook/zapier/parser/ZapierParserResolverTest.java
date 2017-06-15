@@ -28,10 +28,8 @@ public class ZapierParserResolverTest {
   @Spy
   private List<ZapierParserFactory> factories = new ArrayList<>();
 
-  @InjectMocks
   private V1ZapierParserFactory v1ParserFactory;
 
-  @InjectMocks
   private V2ZapierParserFactory v2ParserFactory;
 
   private ZapierPostMessageParser zapierPostMessageParser = new ZapierPostMessageParser();
