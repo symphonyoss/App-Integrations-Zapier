@@ -20,16 +20,20 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.symphonyoss.integration.webhook.zapier.ZapierEventConstants
     .ZAPIER_EVENT_TYPE_HEADER;
 
 import org.apache.commons.io.FileUtils;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.symphonyoss.integration.model.config.IntegrationSettings;
 import org.symphonyoss.integration.model.message.Message;
 import org.symphonyoss.integration.webhook.WebHookPayload;
 import org.symphonyoss.integration.webhook.exception.WebHookParseException;
@@ -41,9 +45,13 @@ import org.symphonyoss.integration.webhook.zapier.parser.v1.ZapierPostMessagePar
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import javax.ws.rs.core.MediaType;
 
 /**
  * Test class to validate {@link ZapierWebHookIntegration}
@@ -160,4 +168,11 @@ public class ZapierWebHookIntegrationTest {
     assertEquals(expected, result.getMessage());
   }
 
+  @Test
+  public void testSupportedContentTypes() {
+    List<MediaType> supportedContentTypes = new ArrayList<>();
+    supportedContentTypes.add(MediaType.WILDCARD_TYPE);
+
+    Assert.assertEquals(supportedContentTypes, zapierWebHookIntegration.getSupportedContentTypes());
+  }
 }
