@@ -90,8 +90,8 @@ public class V2ZapierPostMessageParser extends MetadataParser implements WebHook
   protected void preProcessInputData(JsonNode input) {
     JsonNode actionNode = input.path(ACTION_FIELDS);
 
-    String messageHeader = actionNode.path(MESSAGE_HEADER).asText(StringUtils.EMPTY);
-    String messageContent = actionNode.path(MESSAGE_CONTENT).asText(StringUtils.EMPTY);
+    String messageHeader = ParserUtils.escapeAndAddLineBreaks(actionNode.path(MESSAGE_HEADER).asText(StringUtils.EMPTY)).toString();
+    String messageContent = ParserUtils.escapeAndAddLineBreaks(actionNode.path(MESSAGE_CONTENT).asText(StringUtils.EMPTY)).toString();
     String messageIcon = actionNode.path(MESSAGE_ICON_URL).asText(StringUtils.EMPTY);
 
     if ((StringUtils.isEmpty(messageHeader)) && (StringUtils.isEmpty(messageContent))) {
