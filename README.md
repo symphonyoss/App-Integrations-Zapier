@@ -2,6 +2,7 @@
 [![Build Status](https://travis-ci.org/symphonyoss/App-Integrations-Zapier.svg?branch=dev)](https://travis-ci.org/symphonyoss/App-Integrations-Zapier)
 [![Dependencies](https://www.versioneye.com/user/projects/58d049f9dcaf9e0048399c74/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/58d049f9dcaf9e0048399c74)
 [![Validation Status](https://scan.coverity.com/projects/12828/badge.svg?flat=1)](https://scan.coverity.com/projects/symphonyoss-app-integrations-zapier)
+[![codecov](https://codecov.io/gh/symphonyoss/App-Integrations-Zapier/branch/dev/graph/badge.svg)](https://codecov.io/gh/symphonyoss/App-Integrations-Zapier)
 
 *This readme contains information that both covers Zapier's specific webhook configuration. To see the development guide for Symphony Integrations, please go to to the [quick start guide](IntegrationQuickstartGuide.md).*
 

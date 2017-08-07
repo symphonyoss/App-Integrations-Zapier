@@ -50,3 +50,6 @@ addons:
 script:
 - "if [[ \"$TRAVIS_PULL_REQUEST\" = \"false\" && $TRAVIS_BRANCH =~ dev ]]; then mvn clean deploy -Pversioneye -DtransitiveDependencies=true --settings settings.xml ; fi"
 - "if [[ \"$TRAVIS_PULL_REQUEST\" != \"false\" ]]; then mvn clean package -Pcobertura; fi"
+
+after_success:
+- bash <(curl -s https://codecov.io/bash)
