@@ -1,4 +1,6 @@
 export default ({
+  appId: 'zapierWebHookIntegration',
+  appContext: 'apps/zapier',
   appTitle: 'Zapier',
   appName: 'Zapier',
   appSubTitle: 'Zapier Webhook Integration',
