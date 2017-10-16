@@ -12,6 +12,7 @@
     <artifactId>integration-zapier</artifactId>
 
     <properties>
+        <!-- This is temporary; set to true as soon as the WhiteSource dashboard is clean -->
         <whitesource.checkPolicies>false</whitesource.checkPolicies>
         <webapp.directory>zapier</webapp.directory>
         <rpm.name>zapier-symphony-integration</rpm.name>
