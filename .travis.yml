@@ -48,7 +48,7 @@ addons:
     branch_pattern: "dev"
 
 script:
-- "if [[ \"$TRAVIS_PULL_REQUEST\" = \"false\" && $TRAVIS_BRANCH =~ dev ]]; then mvn clean deploy -Pversioneye -Pcobertura -DtransitiveDependencies=true --settings settings.xml ; fi"
+- "if [[ \"$TRAVIS_PULL_REQUEST\" = \"false\" && $TRAVIS_BRANCH =~ dev ]]; then mvn clean deploy -Pversioneye,whitesource -Pcobertura -DtransitiveDependencies=true --settings settings.xml ; fi"
 - "if [[ \"$TRAVIS_PULL_REQUEST\" != \"false\" ]]; then mvn clean package -Pcobertura; fi"
 
 after_success:
