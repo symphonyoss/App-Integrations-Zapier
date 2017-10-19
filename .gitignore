@@ -16,3 +16,7 @@ node_modules/
 dist/
 npm-debug.log
 package-lock.json
+
+# WhiteSource reports
+ws-log*
+ws-ls.json
