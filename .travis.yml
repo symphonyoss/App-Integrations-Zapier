@@ -50,6 +50,11 @@ addons:
 script:
 - "if [[ \"$TRAVIS_PULL_REQUEST\" = \"false\" && $TRAVIS_BRANCH =~ dev ]]; then mvn clean deploy -Pversioneye,whitesource -Pcobertura -DtransitiveDependencies=true --settings settings.xml ; fi"
 - "if [[ \"$TRAVIS_PULL_REQUEST\" != \"false\" ]]; then mvn clean package -Pcobertura; fi"
+- npm install
+# Cannot run on external PRs due to https://docs.travis-ci.com/user/pull-requests/#Pull-Requests-and-Security-Restrictions
+- "if [[ $TRAVIS_PULL_REQUEST -eq 'false' ]]; then npm run whitesource; fi;"
+# Break the build, if any Whitesource policy violation is found
+- "if [[ -e 'ws-log-policy-violations.json' ]]; then echo 'Found Whitesource Policy violation, build failed.' ; exit -1; fi;"
 
 after_success:
 - bash <(curl -s https://codecov.io/bash)
