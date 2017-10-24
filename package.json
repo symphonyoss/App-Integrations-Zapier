@@ -8,6 +8,7 @@
     "test:watch": "npm test -- --watch",
     "webpack": "./node_modules/webpack/bin/webpack.js -p --config ./webpack.config.prod.js",
     "watch": "webpack-dev-server --progress --colors --hot --inline --https",
+    "whitesource": "node node_modules/whitesource/bin/whitesource.js run",
     "license-check": "node-license-validator --allow-licenses WTFPL Apache Apache-2 BSD-like BSD BSD-2-Clause BSD-3-Clause Apache-2.0 MIT ISC Unlicense MIT/X11 \"MIT / http://rem.mit-license.org\" \"Public Domain\" --allow-packages domelementtype@1.3.0 domhandler@2.3.0 domutils@1.5.1 extsprintf@1.0.2 ripemd160@0.2.0 rx-lite@3.1.2 shellwords@0.1.0 stream-cache@0.0.2 verror@1.3.6"
   },
   "jest": {
@@ -17,7 +18,9 @@
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "./src/test/webapp/__mocks__/fileMock.js",
       "\\.(css|less)$": "identity-obj-proxy"
-    }
+    },
+    "webpack-stream": "^3.2.0",
+    "whitesource": "^1.0.9"
   },
   "license": "Apache-2.0",
   "author": "Symphony",
