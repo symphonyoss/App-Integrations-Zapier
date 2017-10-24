@@ -1,0 +1,6 @@
+{
+  "checkPolicies":true,
+  "productName":"App-Integrations-Zapier",
+  "projectName":"zapier-npm-package",
+  "devDep": false
+}
