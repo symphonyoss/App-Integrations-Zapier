@@ -18,9 +18,7 @@
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "./src/test/webapp/__mocks__/fileMock.js",
       "\\.(css|less)$": "identity-obj-proxy"
-    },
-    "webpack-stream": "^3.2.0",
-    "whitesource": "^1.0.9"
+    }
   },
   "license": "Apache-2.0",
   "author": "Symphony",
@@ -55,7 +53,8 @@
     "url-loader": "^0.5.7",
     "webpack": "^1.12.14",
     "webpack-dev-server": "^1.14.1",
-    "webpack-stream": "^3.2.0"
+    "webpack-stream": "^3.2.0",
+    "whitesource": "^1.0.9"
   },
   "dependencies": {
     "babel-polyfill": "^6.23.0",

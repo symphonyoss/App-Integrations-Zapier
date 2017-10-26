@@ -45,10 +45,10 @@ addons:
     notification_email: "integrations-team@symphony.com"
     build_command_prepend: "mvn clean"
     build_command:   "mvn -Denv=dev -DsymphonySkipUnitTests=true install"
-    branch_pattern: "dev"
+    branch_pattern: "rc-current-*"
 
 script:
-- "if [[ \"$TRAVIS_PULL_REQUEST\" = \"false\" && $TRAVIS_BRANCH =~ dev ]]; then mvn clean deploy -Pversioneye,whitesource -Pcobertura -DtransitiveDependencies=true --settings settings.xml ; fi"
+- "if [[ \"$TRAVIS_PULL_REQUEST\" = \"false\" && $TRAVIS_BRANCH =~ dev ]]; then mvn clean deploy -Pwhitesource -Pcobertura -DtransitiveDependencies=true --settings settings.xml ; fi"
 - "if [[ \"$TRAVIS_PULL_REQUEST\" != \"false\" ]]; then mvn clean package -Pcobertura; fi"
 
 - npm install
