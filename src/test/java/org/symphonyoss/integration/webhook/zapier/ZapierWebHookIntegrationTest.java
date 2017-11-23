@@ -16,15 +16,7 @@
 
 package org.symphonyoss.integration.webhook.zapier;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.symphonyoss.integration.webhook.zapier.ZapierEventConstants
-    .ZAPIER_EVENT_TYPE_HEADER;
-
+import com.fasterxml.jackson.databind.JsonNode;
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.junit.Before;
@@ -33,25 +25,28 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.symphonyoss.integration.model.config.IntegrationSettings;
+import org.symphonyoss.integration.json.JsonUtils;
 import org.symphonyoss.integration.model.message.Message;
+import org.symphonyoss.integration.model.message.MessageMLVersion;
 import org.symphonyoss.integration.webhook.WebHookPayload;
 import org.symphonyoss.integration.webhook.exception.WebHookParseException;
 import org.symphonyoss.integration.webhook.parser.WebHookParserFactory;
 import org.symphonyoss.integration.webhook.zapier.parser.ZapierNullParser;
 import org.symphonyoss.integration.webhook.zapier.parser.ZapierParserException;
 import org.symphonyoss.integration.webhook.zapier.parser.ZapierParserResolver;
-import org.symphonyoss.integration.webhook.zapier.parser.v1.ZapierPostMessageParser;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import org.symphonyoss.integration.webhook.zapier.parser.v2.V2ZapierPostMessageParser;
 
 import javax.ws.rs.core.MediaType;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.symphonyoss.integration.webhook.zapier.ZapierEventConstants.ZAPIER_EVENT_TYPE_HEADER;
 
 /**
  * Test class to validate {@link ZapierWebHookIntegration}
@@ -66,6 +61,9 @@ public class ZapierWebHookIntegrationTest {
   @InjectMocks
   private ZapierWebHookIntegration zapierWebHookIntegration = new ZapierWebHookIntegration();
 
+  @Mock
+  private V2ZapierPostMessageParser v2ZapierPostMessageParser;
+
   private Map<String, String> headers = new HashMap<>();
 
   private String readFile(String fileName) throws IOException {
@@ -73,6 +71,22 @@ public class ZapierWebHookIntegrationTest {
     String expected =
         FileUtils.readFileToString(new File(classLoader.getResource(fileName).getPath()));
     return expected.replaceAll("\n", "");
+  }
+
+  private String readJsonFile(String fileName) throws IOException {
+    ClassLoader classLoader = getClass().getClassLoader();
+    JsonNode node = JsonUtils.readTree(classLoader.getResourceAsStream(fileName));
+
+    return JsonUtils.writeValueAsString(node);
+  }
+
+  private Message mockMessage(String expectedEntityJson, String expectedTemplate) {
+    Message mockMessage = new Message();
+    mockMessage.setVersion(MessageMLVersion.V2);
+    mockMessage.setData(expectedEntityJson);
+    mockMessage.setMessage(expectedTemplate);
+
+    return mockMessage;
   }
 
   @Before
@@ -128,7 +142,8 @@ public class ZapierWebHookIntegrationTest {
     WebHookPayload payload =
         new WebHookPayload(Collections.<String, String>emptyMap(), headers, body);
 
-    doReturn(new ZapierPostMessageParser()).when(factory).getParser(payload);
+    doThrow(new ZapierParserException("Exception")).when(v2ZapierPostMessageParser).parse(payload);
+    doReturn(v2ZapierPostMessageParser).when(factory).getParser(payload);
 
     zapierWebHookIntegration.parse(payload);
   }
@@ -138,34 +153,22 @@ public class ZapierWebHookIntegrationTest {
     WebHookParserFactory factory = mock(WebHookParserFactory.class);
     doReturn(factory).when(parserResolver).getFactory();
 
-    String expected = readFile("zapierHeaderContentIcon.xml");
+    String expectedEntityJson = readJsonFile("v2/entityJsonHeaderContentIcon.json");
+    String expectedTemplate = readFile("templates/templatePostMessage.xml") + '\n';
     String body = readFile("zapierHeaderContentIcon.json");
     WebHookPayload payload =
         new WebHookPayload(Collections.<String, String>emptyMap(), headers, body);
 
-    doReturn(new ZapierPostMessageParser()).when(factory).getParser(payload);
+    doReturn(v2ZapierPostMessageParser).when(factory).getParser(payload);
+
+    Message mockMessage = mockMessage(expectedEntityJson, expectedTemplate);
+    doReturn(mockMessage).when(v2ZapierPostMessageParser).parse(payload);
 
     Message result = zapierWebHookIntegration.parse(payload);
 
-    assertEquals(expected, result.getMessage());
-  }
-
-  @Test
-  public void testPostMessageContentWithMultipleLinksAndMarkups()
-      throws IOException, WebHookParseException {
-    WebHookParserFactory factory = mock(WebHookParserFactory.class);
-    doReturn(factory).when(parserResolver).getFactory();
-
-    String expected = readFile("zapierContentWithMultipleLinksAndMarkups.xml");
-    String body = readFile("zapierContentWithMultipleLinksAndMarkups.json");
-    WebHookPayload payload =
-        new WebHookPayload(Collections.<String, String>emptyMap(), headers, body);
-
-    doReturn(new ZapierPostMessageParser()).when(factory).getParser(payload);
-
-    Message result = zapierWebHookIntegration.parse(payload);
-
-    assertEquals(expected, result.getMessage());
+    assertEquals(expectedEntityJson, result.getData());
+    assertEquals(expectedTemplate, result.getMessage());
+    assertEquals(MessageMLVersion.V2, result.getVersion());
   }
 
   @Test
