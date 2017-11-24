@@ -1,5 +1,7 @@
 package org.symphonyoss.integration.webhook.zapier.parser;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,8 +15,6 @@ import org.symphonyoss.integration.webhook.zapier.parser.v2.V2ZapierPostMessageP
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * Created by crepache on 12/06/17.

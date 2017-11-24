@@ -16,6 +16,14 @@
 
 package org.symphonyoss.integration.webhook.zapier;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.symphonyoss.integration.webhook.zapier.ZapierEventConstants
+    .ZAPIER_EVENT_TYPE_HEADER;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
@@ -36,17 +44,15 @@ import org.symphonyoss.integration.webhook.zapier.parser.ZapierParserException;
 import org.symphonyoss.integration.webhook.zapier.parser.ZapierParserResolver;
 import org.symphonyoss.integration.webhook.zapier.parser.v2.V2ZapierPostMessageParser;
 
-import javax.ws.rs.core.MediaType;
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
-import static org.symphonyoss.integration.webhook.zapier.ZapierEventConstants.ZAPIER_EVENT_TYPE_HEADER;
+import javax.ws.rs.core.MediaType;
 
 /**
  * Test class to validate {@link ZapierWebHookIntegration}
