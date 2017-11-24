@@ -36,17 +36,7 @@ public final class ZapierEntityConstants {
 
   public static final String MESSAGE_ICON_URL = "message_icon";
 
-  public static final String FIELDS = "fields";
-
   public static final String ACTION_FIELDS = "action_fields";
-
-  public static final String ACTION_FIELDS_FULL = "action_fields_full";
-
-  public static final String ACTION_FIELDS_RAW = "action_fields_raw";
-
-  public static final String ZAP = "zap";
-
-  public static final String LIVE = "live";
 
   public static final String LINK = "link";
 
