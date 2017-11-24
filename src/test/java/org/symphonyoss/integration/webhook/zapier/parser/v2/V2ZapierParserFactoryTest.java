@@ -33,8 +33,6 @@ import org.symphonyoss.integration.model.message.MessageMLVersion;
 import org.symphonyoss.integration.webhook.WebHookPayload;
 import org.symphonyoss.integration.webhook.parser.WebHookParser;
 import org.symphonyoss.integration.webhook.zapier.parser.ZapierNullParser;
-import org.symphonyoss.integration.webhook.zapier.parser.v1.V1ZapierParserFactory;
-import org.symphonyoss.integration.webhook.zapier.parser.v1.ZapierPostMessageParser;
 
 import java.util.Collections;
 import java.util.HashMap;
