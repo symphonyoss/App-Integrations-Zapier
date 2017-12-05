@@ -1,6 +1,6 @@
 {
   "name": "symphony-integration-zapier",
-  "version": "1.5.0",
+  "version": "1.5.3",
   "description": "Symphony App Integrations - Zapier",
   "main": "index.js",
   "scripts": {
