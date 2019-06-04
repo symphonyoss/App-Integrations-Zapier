@@ -127,3 +127,18 @@ This is the EntityJSON that the Zapier integration generates after parsing, whic
 
 ### Messages color mapping
 For all Zapier notifications, the flair color (vertical bar on the left) will be **gray**. This can change in future implementations.
+
+## Contributing
+
+1. Fork it (<https://github.com/symphonyoss/App-Integrations-Zapier/fork>)
+2. Create your feature branch (`git checkout -b feature/fooBar`)
+3. Read our [contribution guidelines](.github/CONTRIBUTING.md) and [Community Code of Conduct](https://www.finos.org/code-of-conduct)
+4. Commit your changes (`git commit -am 'Add some fooBar'`)
+5. Push to the branch (`git push origin feature/fooBar`)
+6. Create a new Pull Request
+
+## License
+
+The code in this repository is distributed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
+
+Copyright 2016-2019 Symphony LLC
